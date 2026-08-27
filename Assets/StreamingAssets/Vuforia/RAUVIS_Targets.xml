@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QCARConfig>
+  <Tracking>
+    <ImageTarget name="e_6_2" size="10.000000 10.000000" />
+    <ImageTarget name="e_5_2" size="10.000000 10.000000" />
+    <ImageTarget name="e_4_2" size="10.000000 10.000000" />
+    <ImageTarget name="e_3_2" size="10.000000 10.000000" />
+    <ImageTarget name="e_2_2_2_mal" size="10.000000 10.000000" />
+    <ImageTarget name="e_2_2_2_bien" size="10.000000 10.000000" />
+    <ImageTarget name="scanme_e6" size="10.000000 10.000000" />
+    <ImageTarget name="scanme_e5" size="10.000000 10.000000" />
+    <ImageTarget name="scanme_e4" size="10.000000 10.000000" />
+    <ImageTarget name="scanme_e3" size="10.000000 10.000000" />
+    <ImageTarget name="scanme_e2" size="10.000000 10.000000" />
+    <ImageTarget name="scanme_e1" size="10.000000 10.000000" />
+  </Tracking>
+</QCARConfig>
