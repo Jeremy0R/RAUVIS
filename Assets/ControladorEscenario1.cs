@@ -54,8 +54,8 @@ public class ControladorEscenario1 : MonoBehaviour
     public void MostrarOpciones()
     {
         tarjetaBase.SetActive(false);
-        tarjetaError.SetActive(false); // Por si venimos de equivocarnos
-        tarjetaAyuda.SetActive(false); // Por si venimos de la ayuda
+        tarjetaError.SetActive(false); // Se apaga la tarjeta de error en caso de que se haya mostrado antes.
+        tarjetaAyuda.SetActive(false); // Se apaga la tarjeta de ayuda en caso de que se haya mostrado antes.
 
         grupoOpciones.SetActive(true);
     }
@@ -65,7 +65,7 @@ public class ControladorEscenario1 : MonoBehaviour
     /// </summary>
     public void SeleccionarOpcionIncorrecta()
     {
-        grupoOpciones.SetActive(false);
+        grupoOpciones.SetActive(false); 
         tarjetaError.SetActive(true);
     }
 
