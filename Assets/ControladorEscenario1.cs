@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro; // Librería para controlar la tipografía de alta calidad
-
 public class ControladorEscenario1 : MonoBehaviour
 {
     // --- Declaración de variables ---
@@ -20,14 +19,18 @@ public class ControladorEscenario1 : MonoBehaviour
     public GameObject correoBueno;
     public GameObject pantallaEscaner;
 
+    private int pasoActual = 0;
+
     // --- FUNCIONES (MÉTODOS / EVENTOS) ---
 
     /// <summary>
     /// Se activa cuando Vuforia detecta el marcador. Muestra la tarjeta base inicial.
     /// </summary>
-    
+
     public void IniciarEscenario()
     {
+        pasoActual = 0;
+
         // Apagamos todo por seguridad al iniciar
         grupoOpciones.SetActive(false);
         tarjetaError.SetActive(false);
@@ -41,11 +44,21 @@ public class ControladorEscenario1 : MonoBehaviour
     }
 
     /// <summary>
-    /// Se conecta al primer botón "Continuar". Cambia el texto de la instrucción.
+    /// Se conecta al botón "Continuar" de la Card_Base. Evalúa en qué paso vamos.
     /// </summary>
-    public void AvanzarInstruccion()
+    public void BotonContinuarBase()
     {
-        textoTarjetaBase.text = "Toca la contraseña que creas que es la más difícil de adivinar para un ladrón.";
+        if (pasoActual == 0)
+        {
+            // Primer clic: Cambia el texto a la instrucción del ladrón
+            textoTarjetaBase.text = "Toca la contraseña que creas que es la más difícil de adivinar para un ladrón.";
+            pasoActual++; // Sumamos 1 para saber que ya pasamos de etapa
+        }
+        else
+        {
+            // Segundo clic: Apaga la tarjeta y muestra las opciones
+            MostrarOpciones();
+        }
     }
 
     /// <summary>
