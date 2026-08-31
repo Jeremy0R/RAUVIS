@@ -13,6 +13,10 @@ PrefabInstance:
       value: Card_Correcto
       objectReference: {fileID: 0}
     - target: {fileID: 1748468052038413505, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
+      propertyPath: m_text
+      value: CONTINUAR
+      objectReference: {fileID: 0}
+    - target: {fileID: 1748468052038413505, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
       propertyPath: m_fontSize
       value: 50
       objectReference: {fileID: 0}

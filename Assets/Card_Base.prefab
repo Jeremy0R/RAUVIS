@@ -340,7 +340,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "BOT\xD3N"
+  m_text: CONTINUAR
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16ce36ebc982e754b8b1301128f00980, type: 2}
   m_sharedMaterial: {fileID: 1940034925374502507, guid: 16ce36ebc982e754b8b1301128f00980, type: 2}
