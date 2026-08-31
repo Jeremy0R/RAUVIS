@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro; // Librería para controlar la tipografía de alta calidad
+
 public class ControladorEscenario1 : MonoBehaviour
 {
     // --- Declaración de variables ---
@@ -9,10 +10,15 @@ public class ControladorEscenario1 : MonoBehaviour
 
     public GameObject grupoOpciones;
 
-    // Tarjetas de retroalimentación
+    // Tarjetas de retroalimentación y sus textos dinámicos
     public GameObject tarjetaError;
+    public TextMeshProUGUI textoTarjetaError;
+
     public GameObject tarjetaCorrecto;
+    public TextMeshProUGUI textoTarjetaCorrecto;
+
     public GameObject tarjetaAyuda;
+    public TextMeshProUGUI textoTarjetaAyuda;
 
     public GameObject grupoCorreos;
     public GameObject correoMalo;
@@ -26,7 +32,6 @@ public class ControladorEscenario1 : MonoBehaviour
     /// <summary>
     /// Se activa cuando Vuforia detecta el marcador. Muestra la tarjeta base inicial.
     /// </summary>
-
     public void IniciarEscenario()
     {
         pasoActual = 0;
@@ -52,7 +57,7 @@ public class ControladorEscenario1 : MonoBehaviour
         {
             // Primer clic: Cambia el texto a la instrucción del ladrón
             textoTarjetaBase.text = "Toca la contraseña que creas que es la más difícil de adivinar para un ladrón.";
-            pasoActual++; // Sumamos 1 para saber que ya pasamos de etapa
+            pasoActual++;
         }
         else
         {
@@ -67,8 +72,8 @@ public class ControladorEscenario1 : MonoBehaviour
     public void MostrarOpciones()
     {
         tarjetaBase.SetActive(false);
-        tarjetaError.SetActive(false); // Se apaga la tarjeta de error en caso de que se haya mostrado antes.
-        tarjetaAyuda.SetActive(false); // Se apaga la tarjeta de ayuda en caso de que se haya mostrado antes.
+        tarjetaError.SetActive(false);
+        tarjetaAyuda.SetActive(false);
 
         grupoOpciones.SetActive(true);
     }
@@ -78,8 +83,9 @@ public class ControladorEscenario1 : MonoBehaviour
     /// </summary>
     public void SeleccionarOpcionIncorrecta()
     {
-        grupoOpciones.SetActive(false); 
+        grupoOpciones.SetActive(false);
         tarjetaError.SetActive(true);
+        textoTarjetaError.text = "Esa es muy fácil de adivinar. ¡Intenta mezclar letras mayúsculas, números y símbolos!";
     }
 
     /// <summary>
@@ -89,6 +95,7 @@ public class ControladorEscenario1 : MonoBehaviour
     {
         grupoOpciones.SetActive(false);
         tarjetaCorrecto.SetActive(true);
+        textoTarjetaCorrecto.text = "Esta contraseña es muy segura porque mezcla mayúsculas, minúsculas, números y símbolos extraños. ¡Tu correo está protegido!";
     }
 
     /// <summary>
@@ -98,5 +105,6 @@ public class ControladorEscenario1 : MonoBehaviour
     {
         grupoOpciones.SetActive(false);
         tarjetaAyuda.SetActive(true);
+        textoTarjetaAyuda.text = "¡NO TE PREOCUPES!\nUna contraseña segura debe contener números, letras y símbolos especiales.";
     }
 }
