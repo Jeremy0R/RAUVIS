@@ -31,6 +31,17 @@ public class ControladorEscenario1 : MonoBehaviour
 
     private int pasoActual = 0;
 
+    void Start()
+    {
+        // Esto asegura que la pantalla inicie totalmente limpia al abrir la app
+        tarjetaBase.SetActive(false);
+        grupoOpciones.SetActive(false);
+        tarjetaError.SetActive(false);
+        tarjetaCorrecto.SetActive(false);
+        tarjetaAyuda.SetActive(false);
+        grupoCorreos.SetActive(false);
+    }
+
     // --- FUNCIONES (MÉTODOS / EVENTOS) ---
 
     public void IniciarEscenario()
