@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.79607844, g: 0.8235294, b: 0.9843137, a: 1}
+  m_Color: {r: 0.9263292, g: 0.6320754, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "BOT\xD3N"
+  m_text: AYUDA
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 16ce36ebc982e754b8b1301128f00980, type: 2}
   m_sharedMaterial: {fileID: 1940034925374502507, guid: 16ce36ebc982e754b8b1301128f00980, type: 2}
