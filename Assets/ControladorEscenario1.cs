@@ -6,18 +6,22 @@ public class ControladorEscenario1 : MonoBehaviour
     // --- Declaración de variables ---
 
     public GameObject tarjetaBase;
+    public TextMeshProUGUI tituloTarjetaBase; // Nuevo cable para el título
     public TextMeshProUGUI textoTarjetaBase;
 
     public GameObject grupoOpciones;
 
     // Tarjetas de retroalimentación y sus textos dinámicos
     public GameObject tarjetaError;
+    public TextMeshProUGUI tituloTarjetaError; // Nuevo cable para el título
     public TextMeshProUGUI textoTarjetaError;
 
     public GameObject tarjetaCorrecto;
+    public TextMeshProUGUI tituloTarjetaCorrecto; // Nuevo cable para el título
     public TextMeshProUGUI textoTarjetaCorrecto;
 
     public GameObject tarjetaAyuda;
+    public TextMeshProUGUI tituloTarjetaAyuda; // Nuevo cable para el título
     public TextMeshProUGUI textoTarjetaAyuda;
 
     public GameObject grupoCorreos;
@@ -29,9 +33,6 @@ public class ControladorEscenario1 : MonoBehaviour
 
     // --- FUNCIONES (MÉTODOS / EVENTOS) ---
 
-    /// <summary>
-    /// Se activa cuando Vuforia detecta el marcador. Muestra la tarjeta base inicial.
-    /// </summary>
     public void IniciarEscenario()
     {
         pasoActual = 0;
@@ -45,30 +46,23 @@ public class ControladorEscenario1 : MonoBehaviour
 
         // Encendemos la tarjeta base con el primer texto
         tarjetaBase.SetActive(true);
+        tituloTarjetaBase.text = "LA LLAVE DE TU CASA";
         textoTarjetaBase.text = "¡Hola! Para tener un correo, necesitas una contraseña segura.";
     }
 
-    /// <summary>
-    /// Se conecta al botón "Continuar" de la Card_Base. Evalúa en qué paso vamos.
-    /// </summary>
     public void BotonContinuarBase()
     {
         if (pasoActual == 0)
         {
-            // Primer clic: Cambia el texto a la instrucción del ladrón
             textoTarjetaBase.text = "Toca la contraseña que creas que es la más difícil de adivinar para un ladrón.";
             pasoActual++;
         }
         else
         {
-            // Segundo clic: Apaga la tarjeta y muestra las opciones
             MostrarOpciones();
         }
     }
 
-    /// <summary>
-    /// Se conecta al segundo botón "Continuar" y al botón "Intentar de nuevo".
-    /// </summary>
     public void MostrarOpciones()
     {
         tarjetaBase.SetActive(false);
@@ -78,33 +72,27 @@ public class ControladorEscenario1 : MonoBehaviour
         grupoOpciones.SetActive(true);
     }
 
-    /// <summary>
-    /// Se conecta a los botones de contraseñas débiles (Juan151986 y 12345678).
-    /// </summary>
     public void SeleccionarOpcionIncorrecta()
     {
         grupoOpciones.SetActive(false);
         tarjetaError.SetActive(true);
+        tituloTarjetaError.text = "¡CUIDADO!";
         textoTarjetaError.text = "Esa es muy fácil de adivinar. ¡Intenta mezclar letras mayúsculas, números y símbolos!";
     }
 
-    /// <summary>
-    /// Se conecta al botón de la contraseña segura (Jv@n_5egur0).
-    /// </summary>
     public void SeleccionarOpcionCorrecta()
     {
         grupoOpciones.SetActive(false);
         tarjetaCorrecto.SetActive(true);
+        tituloTarjetaCorrecto.text = "¡CORRECTO!";
         textoTarjetaCorrecto.text = "Esta contraseña es muy segura porque mezcla mayúsculas, minúsculas, números y símbolos extraños. ¡Tu correo está protegido!";
     }
 
-    /// <summary>
-    /// Se conecta al botón de Ayuda para invocar a BOTTY con la pista.
-    /// </summary>
     public void MostrarAyuda()
     {
         grupoOpciones.SetActive(false);
         tarjetaAyuda.SetActive(true);
-        textoTarjetaAyuda.text = "¡NO TE PREOCUPES!\nUna contraseña segura debe contener números, letras y símbolos especiales.";
+        tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
+        textoTarjetaAyuda.text = "Una contraseña segura debe contener números, letras y símbolos especiales.";
     }
 }
