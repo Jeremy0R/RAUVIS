@@ -2641,7 +2641,19 @@ MonoBehaviour:
         m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 226767362}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &734998372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3259,7 +3271,19 @@ MonoBehaviour:
         m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1087079816}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1046455290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4214,6 +4238,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorMaestro
   managerE1: {fileID: 375421593}
   managerE2: {fileID: 2026752098}
+  targetsE1:
+  - {fileID: 304177354}
+  targetsE2:
+  - {fileID: 537774441}
+  - {fileID: 734998369}
+  - {fileID: 1046455287}
   escenarioActivo: 1
 --- !u!1 &1269402971
 GameObject:

@@ -5,10 +5,19 @@ public class ControladorMaestro : MonoBehaviour
     [Header("Conecta tus Escenarios")]
     public ControladorEscenario1 managerE1;
     public ControladorEscenario2 managerE2;
-    // Aquí agregarás el 3, 4, 5 y 6 después
+
+    [Header("Marcadores Vuforia (Image Targets)")]
+    public GameObject[] targetsE1; // Aquí pondremos los del nivel 1
+    public GameObject[] targetsE2; // Aquí pondremos los del nivel 2
 
     [Header("Estado Actual")]
     public int escenarioActivo = 1;
+
+    void Start()
+    {
+        // Al iniciar la app, forzamos a que solo los targets del E1 existan para la cámara
+        ActivarTargetsEscenario(1);
+    }
 
     // --- BOTÓN DE CARD_BASE ---
     public void BotonBasePresionado()
@@ -29,27 +38,43 @@ public class ControladorMaestro : MonoBehaviour
     {
         if (escenarioActivo == 1)
         {
-            // Según tu libreta, ganar el E1 abre el E2 y pide escanear
-            escenarioActivo = 2; // Cambiamos el cerebro al nivel 2
-            managerE2.tarjetaCorrecto.SetActive(false); // Apagamos la tarjeta de victoria
-            // Aquí puedes encender un panel que diga "Escanea el Escenario 2"
+            CambiarEscenarioActivo(2); // ¡Pasamos al Escenario 2!
+            managerE2.tarjetaCorrecto.SetActive(false); // Apagamos la de victoria
         }
         else if (escenarioActivo == 2)
         {
-            // Lógica para cuando gane el E2 (pasar al 3)
+            // Lógica futura para pasar al Escenario 3
         }
     }
 
     // --- BOTÓN DE CARD_AYUDA ---
     public void BotonAyudaEntendido()
     {
-        // En ambos escenarios, el botón de ayuda suele regresarte a donde estabas
         if (escenarioActivo == 1) managerE1.MostrarOpciones();
         else if (escenarioActivo == 2) managerE2.BotonIntentarDeNuevo();
     }
 
+    // --- CONTROL DE FLUJO Y VUFORIA ---
     public void CambiarEscenarioActivo(int numeroNivel)
     {
         escenarioActivo = numeroNivel;
+        ActivarTargetsEscenario(numeroNivel); // Apaga los targets viejos y prende los nuevos
+    }
+
+    private void ActivarTargetsEscenario(int nivel)
+    {
+        // 1. Apagamos absolutamente TODOS los targets
+        foreach (GameObject target in targetsE1) { target.SetActive(false); }
+        foreach (GameObject target in targetsE2) { target.SetActive(false); }
+
+        // 2. Encendemos SOLO los que corresponden al nivel actual
+        if (nivel == 1)
+        {
+            foreach (GameObject target in targetsE1) { target.SetActive(true); }
+        }
+        else if (nivel == 2)
+        {
+            foreach (GameObject target in targetsE2) { target.SetActive(true); }
+        }
     }
 }
