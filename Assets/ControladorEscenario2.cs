@@ -94,6 +94,7 @@ public class ControladorEscenario2 : MonoBehaviour
     public void BotonIntentarDeNuevo()
     {
         tarjetaError.SetActive(false);
+        tarjetaAyuda.SetActive(false);
         grupoOpciones.SetActive(false);
         pantallaLupa.SetActive(true);
     }

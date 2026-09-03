@@ -2037,7 +2037,7 @@ GameObject:
   - component: {fileID: 537774445}
   - component: {fileID: 537774444}
   - component: {fileID: 537774443}
-  - component: {fileID: 537774442}
+  - component: {fileID: 537774446}
   m_Layer: 0
   m_Name: ImageTarget_E2
   m_TagString: Untagged
@@ -2045,25 +2045,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &537774442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 537774441}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 537774444}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: scanme_e2
-  mDatasetName: Vuforia/RAUVIS_Targets.xml
-  mCastedBehaviour: {fileID: 537774444}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &537774443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2158,7 +2139,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 537774442}
+  mPreview: {fileID: 537774446}
 --- !u!4 &537774445
 Transform:
   m_ObjectHideFlags: 0
@@ -2174,6 +2155,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &537774446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 537774441}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 537774444}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: scanme_e2
+  mDatasetName: Vuforia/RAUVIS_Targets.xml
+  mCastedBehaviour: {fileID: 537774444}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &628961301
 GameObject:
   m_ObjectHideFlags: 0
@@ -2578,7 +2578,7 @@ GameObject:
   - component: {fileID: 734998373}
   - component: {fileID: 734998372}
   - component: {fileID: 734998371}
-  - component: {fileID: 734998370}
+  - component: {fileID: 734998374}
   m_Layer: 0
   m_Name: E2_Bien
   m_TagString: Untagged
@@ -2586,25 +2586,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &734998370
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 734998369}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 734998372}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: e_2_2_2_bien
-  mDatasetName: Vuforia/RAUVIS_Targets.xml
-  mCastedBehaviour: {fileID: 734998372}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &734998371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2660,19 +2641,7 @@ MonoBehaviour:
         m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 226767362}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &734998372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2699,7 +2668,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 734998370}
+  mPreview: {fileID: 734998374}
 --- !u!4 &734998373
 Transform:
   m_ObjectHideFlags: 0
@@ -2715,6 +2684,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &734998374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734998369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 734998372}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: e_2_2_2_bien
+  mDatasetName: Vuforia/RAUVIS_Targets.xml
+  mCastedBehaviour: {fileID: 734998372}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &784157385
 GameObject:
   m_ObjectHideFlags: 0
@@ -3208,7 +3196,7 @@ GameObject:
   - component: {fileID: 1046455291}
   - component: {fileID: 1046455290}
   - component: {fileID: 1046455289}
-  - component: {fileID: 1046455288}
+  - component: {fileID: 1046455292}
   m_Layer: 0
   m_Name: E2_Mal
   m_TagString: Untagged
@@ -3216,25 +3204,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1046455288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1046455287}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
-  mObserverBehaviour: {fileID: 1046455290}
-  mHiddenRoot: {fileID: 0}
-  mTargetName: e_2_2_2_mal
-  mDatasetName: Vuforia/RAUVIS_Targets.xml
-  mCastedBehaviour: {fileID: 1046455290}
-  mMeshFilter: {fileID: 0}
-  mMeshRenderer: {fileID: 0}
 --- !u!114 &1046455289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3290,19 +3259,7 @@ MonoBehaviour:
         m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1087079816}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1046455290
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3329,7 +3286,7 @@ MonoBehaviour:
   mMotionHint: 1
   mTrackingOptimization: 0
   mTrackingOptimizationNeedsUpgrade: 0
-  mPreview: {fileID: 1046455288}
+  mPreview: {fileID: 1046455292}
 --- !u!4 &1046455291
 Transform:
   m_ObjectHideFlags: 0
@@ -3345,6 +3302,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1046455292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1046455287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1778676317, guid: 8a9a760f95896c34689febc965510927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
+  mObserverBehaviour: {fileID: 1046455290}
+  mHiddenRoot: {fileID: 0}
+  mTargetName: e_2_2_2_mal
+  mDatasetName: Vuforia/RAUVIS_Targets.xml
+  mCastedBehaviour: {fileID: 1046455290}
+  mMeshFilter: {fileID: 0}
+  mMeshRenderer: {fileID: 0}
 --- !u!1 &1087079816
 GameObject:
   m_ObjectHideFlags: 0
