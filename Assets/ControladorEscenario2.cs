@@ -8,6 +8,10 @@ public class ControladorEscenario2 : MonoBehaviour
     public TextMeshProUGUI tituloTarjetaBase;
     public TextMeshProUGUI textoTarjetaBase;
 
+    // NUEVO: Agregamos el grupo de opciones para este escenario
+    [Header("Opciones del Escenario")]
+    public GameObject grupoOpciones;
+
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
     public TextMeshProUGUI tituloTarjetaError;
@@ -30,7 +34,7 @@ public class ControladorEscenario2 : MonoBehaviour
 
     void Start()
     {
-        // Limpieza inicial por seguridad al abrir la app
+        // Limpieza inicial
         OcultarTodo();
     }
 
@@ -41,8 +45,10 @@ public class ControladorEscenario2 : MonoBehaviour
         pasoActual = 0;
         OcultarTodo();
 
-        // Arrancamos con el primer paso de tu libreta
+        // Encendemos la tarjeta base y el grupo de opciones (Botón de Ayuda y Regresar)
         tarjetaBase.SetActive(true);
+        grupoOpciones.SetActive(true);
+
         tituloTarjetaBase.text = "EL CARTERO FALSO";
         textoTarjetaBase.text = "Alguien envió un correo del banco, pero los ladrones a veces se disfrazan.";
     }
@@ -51,34 +57,36 @@ public class ControladorEscenario2 : MonoBehaviour
     {
         if (pasoActual == 0)
         {
-            // Segundo texto de la libreta en la misma tarjeta
             textoTarjetaBase.text = "Usa la lupa para buscar los correos. Cuando los veas, toca el que creas que es falso.";
             pasoActual++;
         }
         else
         {
-            // Pasamos a la pantalla del escáner
+            // Pasamos a la pantalla de la lupa y apagamos todo lo demás
             tarjetaBase.SetActive(false);
+            grupoOpciones.SetActive(false);
             pantallaLupa.SetActive(true);
         }
     }
 
-    // --- FUNCIONES DE DECISIÓN (Al tocar los correos) ---
+    // --- FUNCIONES DE DECISIÓN ---
 
-    // El usuario se equivocó al elegir el correo oficial como si fuera el falso
     public void SeleccionarCorreoBueno()
     {
         OcultarTodo();
         tarjetaError.SetActive(true);
+        grupoOpciones.SetActive(true); // Encendemos opciones por si necesita ayuda
+
         tituloTarjetaError.text = "¡¡Revisa los detalles!!";
         textoTarjetaError.text = "Ese es un correo oficial. Revisa el otro. Fíjate que usa '@gmail' y trata de asustarte con 'urgencias'.";
     }
 
-    // El usuario acertó al identificar el phishing
     public void SeleccionarCorreoMalo()
     {
         OcultarTodo();
         tarjetaCorrecto.SetActive(true);
+        grupoOpciones.SetActive(true);
+
         tituloTarjetaCorrecto.text = "¡CORRECTO!";
         textoTarjetaCorrecto.text = "Los bancos reales nunca usan '@gmail' ni te envían amenazas urgentes. ¡Esquivaste una trampa!";
     }
@@ -86,11 +94,13 @@ public class ControladorEscenario2 : MonoBehaviour
     public void BotonIntentarDeNuevo()
     {
         tarjetaError.SetActive(false);
-        pantallaLupa.SetActive(true); // Lo regresamos a seguir buscando con la lupa
+        grupoOpciones.SetActive(false);
+        pantallaLupa.SetActive(true);
     }
 
-    // --- FUNCIONES DE NAVEGACIÓN Y AYUDA ---
+    // --- FUNCIONES AUXILIARES ---
 
+    // Esta función la llama el ControladorMaestro
     public void MostrarAyuda()
     {
         OcultarTodo();
@@ -99,13 +109,6 @@ public class ControladorEscenario2 : MonoBehaviour
         textoTarjetaAyuda.text = "Uno de los correos quiere robar tus datos, analiza la dirección del usuario de cada uno.";
     }
 
-    public void RegresarInicio()
-    {
-        // Función conectada a tu botón (<) - Pendiente de implementar el cambio de escena
-        Debug.Log("Regresando al menú de inicio...");
-    }
-
-    // Función auxiliar para mantener la pantalla limpia
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);
@@ -115,5 +118,8 @@ public class ControladorEscenario2 : MonoBehaviour
         pantallaLupa.SetActive(false);
         mailCardMalo.SetActive(false);
         mailCardBueno.SetActive(false);
+
+        // Apagamos el grupo de opciones por defecto
+        if (grupoOpciones != null) grupoOpciones.SetActive(false);
     }
 }
