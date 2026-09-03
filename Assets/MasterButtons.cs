@@ -47,4 +47,9 @@ public class ControladorMaestro : MonoBehaviour
         if (escenarioActivo == 1) managerE1.MostrarOpciones();
         else if (escenarioActivo == 2) managerE2.BotonIntentarDeNuevo();
     }
+
+    public void CambiarEscenarioActivo(int numeroNivel)
+    {
+        escenarioActivo = numeroNivel;
+    }
 }
