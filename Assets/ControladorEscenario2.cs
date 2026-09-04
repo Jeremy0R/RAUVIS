@@ -47,7 +47,7 @@ public class ControladorEscenario2 : MonoBehaviour
 
         // Encendemos la tarjeta base y el grupo de opciones (Botón de Ayuda y Regresar)
         tarjetaBase.SetActive(true);
-        grupoOpciones.SetActive(true);
+        grupoOpciones.SetActive(false);
 
         tituloTarjetaBase.text = "EL CARTERO FALSO";
         textoTarjetaBase.text = "Alguien envió un correo del banco, pero los ladrones a veces se disfrazan.";
@@ -64,7 +64,7 @@ public class ControladorEscenario2 : MonoBehaviour
         {
             // Pasamos a la pantalla de la lupa y apagamos todo lo demás
             tarjetaBase.SetActive(false);
-            grupoOpciones.SetActive(false);
+            grupoOpciones.SetActive(true);
             pantallaLupa.SetActive(true);
         }
     }
@@ -95,7 +95,7 @@ public class ControladorEscenario2 : MonoBehaviour
     {
         tarjetaError.SetActive(false);
         tarjetaAyuda.SetActive(false);
-        grupoOpciones.SetActive(false);
+        grupoOpciones.SetActive(true);
         pantallaLupa.SetActive(true);
     }
 
