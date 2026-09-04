@@ -2714,7 +2714,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
   mObserverBehaviour: {fileID: 734998372}
   mHiddenRoot: {fileID: 0}
-  mTargetName: e_2_2_2_bien
+  mTargetName: e_2_2_2_mal
   mDatasetName: Vuforia/RAUVIS_Targets.xml
   mCastedBehaviour: {fileID: 734998372}
   mMeshFilter: {fileID: 0}
@@ -3348,7 +3348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Vuforia.Unity.Engine.dll::Vuforia.ImageTargetPreview
   mObserverBehaviour: {fileID: 1046455290}
   mHiddenRoot: {fileID: 0}
-  mTargetName: e_2_2_2_mal
+  mTargetName: e_2_2_2_bien
   mDatasetName: Vuforia/RAUVIS_Targets.xml
   mCastedBehaviour: {fileID: 1046455290}
   mMeshFilter: {fileID: 0}
