@@ -2669,7 +2669,7 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: e_2_2_2_bien
+  mTrackableName: e_2_2_2_mal
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/RAUVIS_Targets.xml
   mAspectRatio: 1
@@ -3299,7 +3299,7 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: e_2_2_2_mal
+  mTrackableName: e_2_2_2_bien
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/RAUVIS_Targets.xml
   mAspectRatio: 1
