@@ -5,17 +5,18 @@ public class ControladorMaestro : MonoBehaviour
     [Header("Conecta tus Escenarios")]
     public ControladorEscenario1 managerE1;
     public ControladorEscenario2 managerE2;
+    public ControladorEscenario3 managerE3; // NUEVO E3
 
     [Header("Marcadores Vuforia (Image Targets)")]
-    public GameObject[] targetsE1; // Aquí pondremos los del nivel 1
-    public GameObject[] targetsE2; // Aquí pondremos los del nivel 2
+    public GameObject[] targetsE1;
+    public GameObject[] targetsE2;
+    public GameObject[] targetsE3; // NUEVO E3
 
     [Header("Estado Actual")]
     public int escenarioActivo = 1;
 
     void Start()
     {
-        // Al iniciar la app, forzamos a que solo los targets del E1 existan para la cámara
         ActivarTargetsEscenario(1);
     }
 
@@ -24,6 +25,7 @@ public class ControladorMaestro : MonoBehaviour
     {
         if (escenarioActivo == 1) managerE1.BotonContinuarBase();
         else if (escenarioActivo == 2) managerE2.BotonContinuarBase();
+        else if (escenarioActivo == 3) managerE3.BotonContinuarBase();
     }
 
     // --- BOTÓN DE CARD_ERROR ---
@@ -31,6 +33,7 @@ public class ControladorMaestro : MonoBehaviour
     {
         if (escenarioActivo == 1) managerE1.MostrarOpciones();
         else if (escenarioActivo == 2) managerE2.BotonIntentarDeNuevo();
+        else if (escenarioActivo == 3) managerE3.BotonBorrarPresionado(); // E3: Actúa como botón de borrar
     }
 
     // --- BOTÓN DE CARD_CORRECTO ---
@@ -38,12 +41,17 @@ public class ControladorMaestro : MonoBehaviour
     {
         if (escenarioActivo == 1)
         {
-            CambiarEscenarioActivo(2); // ¡Pasamos al Escenario 2!
-            managerE2.tarjetaCorrecto.SetActive(false); // Apagamos la de victoria
+            CambiarEscenarioActivo(2);
+            managerE2.tarjetaCorrecto.SetActive(false);
         }
         else if (escenarioActivo == 2)
         {
-            // Lógica futura para pasar al Escenario 3
+            CambiarEscenarioActivo(3); // ¡Pasamos al Escenario 3!
+            managerE2.tarjetaCorrecto.SetActive(false);
+        }
+        else if (escenarioActivo == 3)
+        {
+            // Lógica futura para el E4
         }
     }
 
@@ -52,22 +60,25 @@ public class ControladorMaestro : MonoBehaviour
     {
         if (escenarioActivo == 1) managerE1.MostrarOpciones();
         else if (escenarioActivo == 2) managerE2.BotonIntentarDeNuevo();
+        else if (escenarioActivo == 3) managerE3.OcultarAyuda();
     }
 
     // --- CONTROL DE FLUJO Y VUFORIA ---
     public void CambiarEscenarioActivo(int numeroNivel)
     {
         escenarioActivo = numeroNivel;
-        ActivarTargetsEscenario(numeroNivel); // Apaga los targets viejos y prende los nuevos
+        ActivarTargetsEscenario(numeroNivel);
+
+        // Disparar el inicio automáticamente al cambiar de nivel
+        if (numeroNivel == 3) managerE3.IniciarEscenario();
     }
 
     private void ActivarTargetsEscenario(int nivel)
     {
-        // 1. Apagamos absolutamente TODOS los targets
         foreach (GameObject target in targetsE1) { target.SetActive(false); }
         foreach (GameObject target in targetsE2) { target.SetActive(false); }
+        foreach (GameObject target in targetsE3) { target.SetActive(false); } // Apaga E3
 
-        // 2. Encendemos SOLO los que corresponden al nivel actual
         if (nivel == 1)
         {
             foreach (GameObject target in targetsE1) { target.SetActive(true); }
@@ -75,6 +86,10 @@ public class ControladorMaestro : MonoBehaviour
         else if (nivel == 2)
         {
             foreach (GameObject target in targetsE2) { target.SetActive(true); }
+        }
+        else if (nivel == 3)
+        {
+            foreach (GameObject target in targetsE3) { target.SetActive(true); } // Prende E3
         }
     }
 }
