@@ -42,16 +42,17 @@ public class ControladorMaestro : MonoBehaviour
         if (escenarioActivo == 1)
         {
             CambiarEscenarioActivo(2);
-            managerE2.tarjetaCorrecto.SetActive(false);
+            managerE1.tarjetaCorrecto.SetActive(false);
         }
         else if (escenarioActivo == 2)
         {
-            CambiarEscenarioActivo(3); // ¡Pasamos al Escenario 3!
+            CambiarEscenarioActivo(3);
             managerE2.tarjetaCorrecto.SetActive(false);
+            managerE2.grupoOpciones.SetActive(false); // <--- ESTA ES LA LÍNEA MÁGICA PARA EL BUG
         }
         else if (escenarioActivo == 3)
         {
-            // Lógica futura para el E4
+            // Lógica futura para pasar al E4
         }
     }
 
