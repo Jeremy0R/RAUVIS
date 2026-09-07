@@ -112,6 +112,7 @@ public class ControladorEscenario3 : MonoBehaviour
     private void MostrarAlertaVirus()
     {
         tarjetaError.SetActive(true);
+        grupoOpciones.SetActive(true);
         tituloTarjetaError.text = "¡PELIGRO!";
         textoTarjetaError.text = "El scanner detectó un virus. Está diseñado para robar tu información.";
 
