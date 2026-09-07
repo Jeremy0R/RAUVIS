@@ -1,29 +1,35 @@
 using UnityEngine;
-using TMPro; // Librería para controlar la tipografía de alta calidad
+using TMPro;
 
 public class ControladorEscenario1 : MonoBehaviour
 {
     // --- Declaración de variables ---
 
     public GameObject tarjetaBase;
-    public TextMeshProUGUI tituloTarjetaBase; // Nuevo cable para el título
+    public TextMeshProUGUI tituloTarjetaBase;
     public TextMeshProUGUI textoTarjetaBase;
+
+    // NUEVO: Variables para la tarjeta con Botty explicando
+    public GameObject tarjetaExplicacion;
+    public TextMeshProUGUI tituloTarjetaExplicacion;
+    public TextMeshProUGUI textoTarjetaExplicacion;
 
     public GameObject grupoOpciones;
 
     // Tarjetas de retroalimentación y sus textos dinámicos
     public GameObject tarjetaError;
-    public TextMeshProUGUI tituloTarjetaError; // Nuevo cable para el título
+    public TextMeshProUGUI tituloTarjetaError;
     public TextMeshProUGUI textoTarjetaError;
 
     public GameObject tarjetaCorrecto;
-    public TextMeshProUGUI tituloTarjetaCorrecto; // Nuevo cable para el título
+    public TextMeshProUGUI tituloTarjetaCorrecto;
     public TextMeshProUGUI textoTarjetaCorrecto;
 
     public GameObject tarjetaAyuda;
-    public TextMeshProUGUI tituloTarjetaAyuda; // Nuevo cable para el título
+    public TextMeshProUGUI tituloTarjetaAyuda;
     public TextMeshProUGUI textoTarjetaAyuda;
 
+    // Elementos extra que tenías declarados
     public GameObject grupoCorreos;
     public GameObject correoMalo;
     public GameObject correoBueno;
@@ -33,13 +39,7 @@ public class ControladorEscenario1 : MonoBehaviour
 
     void Start()
     {
-        // Esto asegura que la pantalla inicie totalmente limpia al abrir la app
-        tarjetaBase.SetActive(false);
-        grupoOpciones.SetActive(false);
-        tarjetaError.SetActive(false);
-        tarjetaCorrecto.SetActive(false);
-        tarjetaAyuda.SetActive(false);
-        grupoCorreos.SetActive(false);
+        OcultarTodo();
     }
 
     // --- FUNCIONES (MÉTODOS / EVENTOS) ---
@@ -47,13 +47,7 @@ public class ControladorEscenario1 : MonoBehaviour
     public void IniciarEscenario()
     {
         pasoActual = 0;
-
-        // Apagamos todo por seguridad al iniciar
-        grupoOpciones.SetActive(false);
-        tarjetaError.SetActive(false);
-        tarjetaCorrecto.SetActive(false);
-        tarjetaAyuda.SetActive(false);
-        grupoCorreos.SetActive(false);
+        OcultarTodo();
 
         // Encendemos la tarjeta base con el primer texto
         tarjetaBase.SetActive(true);
@@ -65,27 +59,31 @@ public class ControladorEscenario1 : MonoBehaviour
     {
         if (pasoActual == 0)
         {
-            textoTarjetaBase.text = "Toca la contraseña que creas que es la más difícil de adivinar para un ladrón.";
+            // Apagamos la base y pasamos a la de explicación con Botty
+            tarjetaBase.SetActive(false);
+            tarjetaExplicacion.SetActive(true);
+
+            tituloTarjetaExplicacion.text = "LA LLAVE DE TU CASA";
+            textoTarjetaExplicacion.text = "Toca la contraseña que creas que es la más difícil de adivinar para un ladrón.";
+
             pasoActual++;
         }
         else
         {
+            // Pasamos a mostrar los botones de las contraseñas
             MostrarOpciones();
         }
     }
 
     public void MostrarOpciones()
     {
-        tarjetaBase.SetActive(false);
-        tarjetaError.SetActive(false);
-        tarjetaAyuda.SetActive(false);
-
+        OcultarTodo();
         grupoOpciones.SetActive(true);
     }
 
     public void SeleccionarOpcionIncorrecta()
     {
-        grupoOpciones.SetActive(false);
+        OcultarTodo();
         tarjetaError.SetActive(true);
         tituloTarjetaError.text = "¡CUIDADO!";
         textoTarjetaError.text = "Esa es muy fácil de adivinar. ¡Intenta mezclar letras mayúsculas, números y símbolos!";
@@ -93,7 +91,7 @@ public class ControladorEscenario1 : MonoBehaviour
 
     public void SeleccionarOpcionCorrecta()
     {
-        grupoOpciones.SetActive(false);
+        OcultarTodo();
         tarjetaCorrecto.SetActive(true);
         tituloTarjetaCorrecto.text = "¡CORRECTO!";
         textoTarjetaCorrecto.text = "Esta contraseña es muy segura porque mezcla mayúsculas, minúsculas, números y símbolos extraños. ¡Tu correo está protegido!";
@@ -101,9 +99,24 @@ public class ControladorEscenario1 : MonoBehaviour
 
     public void MostrarAyuda()
     {
-        grupoOpciones.SetActive(false);
+        OcultarTodo();
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
         textoTarjetaAyuda.text = "Una contraseña segura debe contener números, letras y símbolos especiales.";
+    }
+
+    // NUEVO: Función auxiliar para limpiar la pantalla (unifica el estilo con el E2 y E3)
+    private void OcultarTodo()
+    {
+        tarjetaBase.SetActive(false);
+        if (tarjetaExplicacion != null) tarjetaExplicacion.SetActive(false);
+        grupoOpciones.SetActive(false);
+        tarjetaError.SetActive(false);
+        tarjetaCorrecto.SetActive(false);
+        tarjetaAyuda.SetActive(false);
+
+        // Limpieza de las variables extra
+        if (grupoCorreos != null) grupoCorreos.SetActive(false);
+        if (pantallaEscaner != null) pantallaEscaner.SetActive(false);
     }
 }

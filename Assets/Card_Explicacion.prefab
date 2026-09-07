@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card_Explicacion
       objectReference: {fileID: 0}
+    - target: {fileID: 649165241764134263, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1782726261122405585, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
       propertyPath: m_Sprite
       value: 
