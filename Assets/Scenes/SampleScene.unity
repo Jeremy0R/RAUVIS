@@ -694,7 +694,7 @@ MonoBehaviour:
   tituloTarjetaAyuda: {fileID: 1600522539}
   textoTarjetaAyuda: {fileID: 2075078567}
   botonAnalizar: {fileID: 426232802}
-  animacionScanner: {fileID: 0}
+  animacionScanner: {fileID: 311012310}
 --- !u!4 &222078901
 Transform:
   m_ObjectHideFlags: 0
@@ -3058,7 +3058,6 @@ GameObject:
   - component: {fileID: 868172749}
   - component: {fileID: 868172748}
   - component: {fileID: 868172747}
-  - component: {fileID: 868172751}
   m_Layer: 0
   m_Name: ImageTarget_E3
   m_TagString: Untagged
@@ -3183,28 +3182,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &868172751
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 868172746}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 9d9202ae948d3f440a9b3560109f889c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &943318851
 PrefabInstance:
   m_ObjectHideFlags: 0
