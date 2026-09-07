@@ -64,8 +64,8 @@ public class ControladorEscenario3 : MonoBehaviour
             tarjetaBase.SetActive(false);
             tarjetaExplicacion.SetActive(true);
 
-            tituloTarjetaExplicacion.text = "EL PAQUETE SORPRESA";
-            textoTarjetaExplicacion.text = "Toca el botón flotante de 'Analizar' que aparece sobre el documento para ver si es seguro.";
+            tituloTarjetaExplicacion.text = "ANALIZA EL DOCUMENTO";
+            textoTarjetaExplicacion.text = "Escanea la imagen y toca el botón flotante de 'Analizar' que aparece sobre el documento para comprobar si es seguro.";
 
             pasoActual++;
         }
