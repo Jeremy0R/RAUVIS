@@ -68,9 +68,6 @@ public class ControladorMaestro : MonoBehaviour
     {
         escenarioActivo = numeroNivel;
         ActivarTargetsEscenario(numeroNivel);
-
-        // Disparar el inicio automáticamente al cambiar de nivel
-        if (numeroNivel == 3) managerE3.IniciarEscenario();
     }
 
     private void ActivarTargetsEscenario(int nivel)
