@@ -99,7 +99,7 @@ public class ControladorEscenario4 : MonoBehaviour
 
         tarjetaError.SetActive(true);
         tituloTarjetaError.text = "¡CUIDADO!";
-        textoTarjetaError.text = "Si te dejas llevar por el susto, puedes perder tu dinero. Los ladrones inventan emergencias para que no pienses con claridad.";
+        textoTarjetaError.text = "No actúes por miedo. Las emergencias falsas son trucos para robar tu dinero.";
     }
 
     public void BotonRealizarLlamada()
