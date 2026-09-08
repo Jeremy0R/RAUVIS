@@ -1738,7 +1738,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3693159775828996236, guid: ee582cb5336db294099e2479e37f9961, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 3693159775828996236, guid: ee582cb5336db294099e2479e37f9961, type: 3}
       propertyPath: m_SizeDelta.y
@@ -1774,7 +1774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3693159775828996236, guid: ee582cb5336db294099e2479e37f9961, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3693159775828996236, guid: ee582cb5336db294099e2479e37f9961, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -5881,7 +5881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4298535770264347738, guid: 5f6f614a5fd77074295d4af64810cf7f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 4298535770264347738, guid: 5f6f614a5fd77074295d4af64810cf7f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -5917,7 +5917,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4298535770264347738, guid: 5f6f614a5fd77074295d4af64810cf7f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4298535770264347738, guid: 5f6f614a5fd77074295d4af64810cf7f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -6582,7 +6582,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5635255297949007203, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 5635255297949007203, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_SizeDelta.y
@@ -6618,7 +6618,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5635255297949007203, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5635255297949007203, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -8229,7 +8229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2104858114844463929, guid: b1255123f102b7e4a84c02191e9978f3, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 2104858114844463929, guid: b1255123f102b7e4a84c02191e9978f3, type: 3}
       propertyPath: m_SizeDelta.y
@@ -8265,7 +8265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2104858114844463929, guid: b1255123f102b7e4a84c02191e9978f3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2104858114844463929, guid: b1255123f102b7e4a84c02191e9978f3, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -8431,7 +8431,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3631201785843428664, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 500
+      value: 600
       objectReference: {fileID: 0}
     - target: {fileID: 3631201785843428664, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
       propertyPath: m_SizeDelta.y
@@ -8467,7 +8467,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3631201785843428664, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -50
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3631201785843428664, guid: 6d56c1e5596f1224d9e551404ce1032f, type: 3}
       propertyPath: m_AnchoredPosition.y
