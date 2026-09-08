@@ -13,7 +13,7 @@ public class ControladorMaestro : MonoBehaviour
     public GameObject[] targetsE3;
 
     [Header("Interfaz Global")]
-    public GameObject pantallaInstruccion; // NUEVO: La pantalla de "Coloca la cámara..."
+    public GameObject pantallaInstruccion;
 
     [Header("Estado Actual")]
     public int escenarioActivo = 1;
