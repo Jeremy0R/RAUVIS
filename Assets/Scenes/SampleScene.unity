@@ -1289,6 +1289,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1249460589}
+        m_TargetAssemblyTypeName: ControladorMaestro, Assembly-CSharp
+        m_MethodName: OcultarInstruccionGlobal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
       m_Calls: []
@@ -2396,6 +2408,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1249460589}
+        m_TargetAssemblyTypeName: ControladorMaestro, Assembly-CSharp
+        m_MethodName: OcultarInstruccionGlobal
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnTargetLost:
     m_PersistentCalls:
       m_Calls: []
@@ -3299,6 +3323,18 @@ MonoBehaviour:
       - m_Target: {fileID: 222078900}
         m_TargetAssemblyTypeName: ControladorEscenario3, Assembly-CSharp
         m_MethodName: IniciarEscenario
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1249460589}
+        m_TargetAssemblyTypeName: ControladorMaestro, Assembly-CSharp
+        m_MethodName: OcultarInstruccionGlobal
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4855,7 +4891,7 @@ MonoBehaviour:
   targetsE3:
   - {fileID: 868172746}
   - {fileID: 760111324}
-  pantallaInstruccion: {fileID: 0}
+  pantallaInstruccion: {fileID: 1277200240}
   escenarioActivo: 1
 --- !u!1 &1269402971
 GameObject:
