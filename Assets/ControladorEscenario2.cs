@@ -7,6 +7,10 @@ public class ControladorEscenario2 : MonoBehaviour
     public GameObject tarjetaBase;
     public TextMeshProUGUI tituloTarjetaBase;
     public TextMeshProUGUI textoTarjetaBase;
+    // NUEVO: Variables para la tarjeta con Botty explicando
+    public GameObject tarjetaExplicacion;
+    public TextMeshProUGUI tituloTarjetaExplicacion;
+    public TextMeshProUGUI textoTarjetaExplicacion;
 
     // NUEVO: Agregamos el grupo de opciones para este escenario
     [Header("Opciones del Escenario")]
@@ -57,13 +61,19 @@ public class ControladorEscenario2 : MonoBehaviour
     {
         if (pasoActual == 0)
         {
-            textoTarjetaBase.text = "Usa la lupa para buscar los correos. Cuando los veas, toca el que creas que es falso.";
+            tarjetaBase.SetActive(false);
+            tarjetaExplicacion.SetActive(true);
+
+            tituloTarjetaExplicacion.text = "EL CARTERO FALSO";
+            textoTarjetaExplicacion.text = "Usa la lupa para buscar los correos. Cuando los veas, toca el que creas que es falso.";
+
             pasoActual++;
         }
         else
         {
             // Pasamos a la pantalla de la lupa y apagamos todo lo demás
             tarjetaBase.SetActive(false);
+            tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
             pantallaLupa.SetActive(true);
         }
@@ -113,6 +123,7 @@ public class ControladorEscenario2 : MonoBehaviour
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);
+        tarjetaExplicacion.SetActive(false);
         tarjetaError.SetActive(false);
         tarjetaCorrecto.SetActive(false);
         tarjetaAyuda.SetActive(false);
