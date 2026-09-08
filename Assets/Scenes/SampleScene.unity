@@ -5384,8 +5384,8 @@ MonoBehaviour:
   - {fileID: 868172746}
   - {fileID: 760111324}
   targetsE4:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1834301700}
+  - {fileID: 1185867542}
   pantallaInstruccion: {fileID: 1277200240}
   escenarioActivo: 1
 --- !u!1001 &1260544835
@@ -8601,10 +8601,10 @@ SceneRoots:
   - {fileID: 537774445}
   - {fileID: 868172750}
   - {fileID: 1834301704}
-  - {fileID: 1185867546}
   - {fileID: 734998373}
   - {fileID: 1046455291}
   - {fileID: 760111328}
+  - {fileID: 1185867546}
   - {fileID: 1249460588}
   - {fileID: 1269402974}
   - {fileID: 375421594}
