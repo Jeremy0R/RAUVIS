@@ -94,7 +94,7 @@ public class ControladorEscenario1 : MonoBehaviour
         OcultarTodo();
         tarjetaCorrecto.SetActive(true);
         tituloTarjetaCorrecto.text = "¡CORRECTO!";
-        textoTarjetaCorrecto.text = "Esta contraseña es muy segura porque mezcla mayúsculas, minúsculas, números y símbolos extraños. ¡Tu correo está protegido!";
+        textoTarjetaCorrecto.text = "Al mezclar mayúsculas, minúsculas, números y símbolos extraños. ¡Tu correo está protegido!";
     }
 
     public void MostrarAyuda()
