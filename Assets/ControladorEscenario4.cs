@@ -14,8 +14,8 @@ public class ControladorEscenario4 : MonoBehaviour
 
     [Header("Interfaz de Interacción")]
     public GameObject grupoOpciones; // Botones Back y Ayuda
-    public GameObject pantallaCorreoE4; // La imagen del correo estático
-    public GameObject grupoBotonesAccion; // Botones "Enviar" y "Llamar"
+    public GameObject pantallaCorreoE4; // La imagen del correo
+    public GameObject grupoBotonesAccion; // Botones Enviar y Llamar
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -31,6 +31,7 @@ public class ControladorEscenario4 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaAyuda;
 
     private int pasoActual = 0;
+    private bool targetDetectado = false; // NUEVO: Sensor para saber si Vuforia está viendo la imagen
 
     void Start()
     {
@@ -41,6 +42,7 @@ public class ControladorEscenario4 : MonoBehaviour
     public void IniciarEscenario()
     {
         pasoActual = 0;
+        targetDetectado = false;
         OcultarTodo();
 
         tarjetaBase.SetActive(true);
@@ -62,8 +64,10 @@ public class ControladorEscenario4 : MonoBehaviour
         }
         else
         {
-            // Apagamos la explicación y dejamos la pantalla limpia esperando que escanee el target T_e4
+            // Fase de Escaneo: Apagamos la explicación y ENCENDEMOS los botones morados
             tarjetaExplicacion.SetActive(false);
+            grupoOpciones.SetActive(true);
+            pasoActual++;
         }
     }
 
@@ -72,34 +76,37 @@ public class ControladorEscenario4 : MonoBehaviour
     {
         if (pasoActual > 0)
         {
+            targetDetectado = true; // Avisamos que la cámara ya vio el objetivo
             pantallaCorreoE4.SetActive(true);
             grupoBotonesAccion.SetActive(true);
-            grupoOpciones.SetActive(true); // Enciende botones de Ayuda y Back
+            grupoOpciones.SetActive(true);
         }
     }
 
     public void DesactivarCorreoYBotones()
     {
+        targetDetectado = false; // Avisamos que se perdió el objetivo
         pantallaCorreoE4.SetActive(false);
         grupoBotonesAccion.SetActive(false);
-        // Dejamos el grupoOpciones prendido por si quiere usar el botón Back
     }
 
     // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN ---
-    public void BotonEnviarDinero() // Acción Incorrecta
+    public void BotonEnviarDinero()
     {
         pantallaCorreoE4.SetActive(false);
         grupoBotonesAccion.SetActive(false);
+        grupoOpciones.SetActive(false); // Apagamos los morados para limpiar la pantalla
 
         tarjetaError.SetActive(true);
         tituloTarjetaError.text = "¡CUIDADO!";
         textoTarjetaError.text = "Si te dejas llevar por el susto, puedes perder tu dinero. Los ladrones inventan emergencias para que no pienses con claridad.";
     }
 
-    public void BotonRealizarLlamada() // Acción Correcta
+    public void BotonRealizarLlamada()
     {
         pantallaCorreoE4.SetActive(false);
         grupoBotonesAccion.SetActive(false);
+        grupoOpciones.SetActive(false); // Apagamos los morados
 
         tarjetaCorrecto.SetActive(true);
         tituloTarjetaCorrecto.text = "¡MUY INTELIGENTE!";
@@ -109,8 +116,9 @@ public class ControladorEscenario4 : MonoBehaviour
     // --- FUNCIONES AUXILIARES ---
     public void MostrarAyuda()
     {
-        pantallaCorreoE4.SetActive(false);
-        grupoBotonesAccion.SetActive(false);
+        // Limpiamos el fondo apagando el correo temporalmente (evita que se empalmen)
+        if (pantallaCorreoE4 != null) pantallaCorreoE4.SetActive(false);
+        if (grupoBotonesAccion != null) grupoBotonesAccion.SetActive(false);
 
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
@@ -120,16 +128,25 @@ public class ControladorEscenario4 : MonoBehaviour
     public void OcultarAyuda()
     {
         tarjetaAyuda.SetActive(false);
-        // Volvemos a prender la interfaz de decisión
-        pantallaCorreoE4.SetActive(true);
-        grupoBotonesAccion.SetActive(true);
+
+        // Magia aquí: Solo devolvemos el correo a la pantalla SI la cámara sigue viendo el marcador
+        if (targetDetectado)
+        {
+            pantallaCorreoE4.SetActive(true);
+            grupoBotonesAccion.SetActive(true);
+        }
     }
 
     public void RestaurarDespuesDeError()
     {
         tarjetaError.SetActive(false);
-        pantallaCorreoE4.SetActive(true);
-        grupoBotonesAccion.SetActive(true);
+        grupoOpciones.SetActive(true); // Devolvemos los botones morados
+
+        if (targetDetectado)
+        {
+            pantallaCorreoE4.SetActive(true);
+            grupoBotonesAccion.SetActive(true);
+        }
     }
 
     private void OcultarTodo()
@@ -139,8 +156,8 @@ public class ControladorEscenario4 : MonoBehaviour
         tarjetaError.SetActive(false);
         tarjetaCorrecto.SetActive(false);
         tarjetaAyuda.SetActive(false);
-        pantallaCorreoE4.SetActive(false);
-        grupoBotonesAccion.SetActive(false);
+        if (pantallaCorreoE4 != null) pantallaCorreoE4.SetActive(false);
+        if (grupoBotonesAccion != null) grupoBotonesAccion.SetActive(false);
         if (grupoOpciones != null) grupoOpciones.SetActive(false);
     }
 }
