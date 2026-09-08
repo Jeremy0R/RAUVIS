@@ -21,10 +21,11 @@ public class ControladorEscenario4 : MonoBehaviour
     public GameObject tarjetaError;
     public TextMeshProUGUI tituloTarjetaError;
     public TextMeshProUGUI textoTarjetaError;
-
+    public TextMeshProUGUI textoBotonError;
     public GameObject tarjetaCorrecto;
     public TextMeshProUGUI tituloTarjetaCorrecto;
     public TextMeshProUGUI textoTarjetaCorrecto;
+    public TextMeshProUGUI textoBotonCorrecto;
 
     public GameObject tarjetaAyuda;
     public TextMeshProUGUI tituloTarjetaAyuda;
@@ -100,6 +101,7 @@ public class ControladorEscenario4 : MonoBehaviour
         tarjetaError.SetActive(true);
         tituloTarjetaError.text = "¡CUIDADO!";
         textoTarjetaError.text = "No actúes por miedo. Las emergencias falsas son trucos para robar tu dinero.";
+        if (textoBotonError != null) textoBotonError.text = "INTENTAR DE NUEVO";
     }
 
     public void BotonRealizarLlamada()
@@ -111,6 +113,7 @@ public class ControladorEscenario4 : MonoBehaviour
         tarjetaCorrecto.SetActive(true);
         tituloTarjetaCorrecto.text = "¡MUY INTELIGENTE!";
         textoTarjetaCorrecto.text = "Nunca envíes dinero solo por un correo. Siempre debes llamar a la persona a su teléfono conocido para comprobar si es verdad.";
+        if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
     }
 
     // --- FUNCIONES AUXILIARES ---
