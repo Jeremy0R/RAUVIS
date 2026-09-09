@@ -7,12 +7,14 @@ public class ControladorMaestro : MonoBehaviour
     public ControladorEscenario2 managerE2;
     public ControladorEscenario3 managerE3;
     public ControladorEscenario4 managerE4;
+    public ControladorEscenario5 managerE5;
 
     [Header("Marcadores Vuforia (Image Targets)")]
     public GameObject[] targetsE1;
     public GameObject[] targetsE2;
     public GameObject[] targetsE3;
     public GameObject[] targetsE4;
+    public GameObject[] targetsE5;
 
     [Header("Interfaz Global")]
     public GameObject pantallaInstruccion;
@@ -39,6 +41,7 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 2) managerE2.BotonContinuarBase();
         else if (escenarioActivo == 3) managerE3.BotonContinuarBase();
         else if (escenarioActivo == 4) managerE4.BotonContinuarBase();
+        else if (escenarioActivo == 5) managerE5.BotonContinuarBase();
     }
 
     // --- BOTÓN DE CARD_ERROR ---
@@ -48,6 +51,7 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 2) managerE2.BotonIntentarDeNuevo();
         else if (escenarioActivo == 3) managerE3.BotonBorrarPresionado();
         else if (escenarioActivo == 4) managerE4.RestaurarDespuesDeError();
+        else if (escenarioActivo == 5) managerE5.RestaurarDespuesDeError();
     }
 
     // --- BOTÓN DE CARD_CORRECTO ---
@@ -76,6 +80,12 @@ public class ControladorMaestro : MonoBehaviour
             managerE4.tarjetaCorrecto.SetActive(false);
             managerE4.grupoOpciones.SetActive(false);
         }
+        else if (escenarioActivo == 5)
+        {
+            CambiarEscenarioActivo(6); // ¡Rumbo al último nivel!
+            managerE5.tarjetaCorrecto.SetActive(false);
+            managerE5.grupoOpciones.SetActive(false);
+        }
     }
 
     // --- BOTÓN PARA ABRIR LA AYUDA (?) ---
@@ -85,6 +95,7 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 2) managerE2.MostrarAyuda();
         else if (escenarioActivo == 3) managerE3.MostrarAyuda();
         else if (escenarioActivo == 4) managerE4.MostrarAyuda();
+        else if (escenarioActivo == 5) managerE5.MostrarAyuda();
     }
 
     // --- BOTÓN PARA CERRAR LA AYUDA ---
@@ -94,6 +105,7 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 2) managerE2.BotonIntentarDeNuevo();
         else if (escenarioActivo == 3) managerE3.OcultarAyuda();
         else if (escenarioActivo == 4) managerE4.OcultarAyuda();
+        else if (escenarioActivo == 5) managerE5.OcultarAyuda();
     }
 
     // --- CONTROL DE FLUJO Y VUFORIA ---
@@ -112,6 +124,7 @@ public class ControladorMaestro : MonoBehaviour
         foreach (GameObject target in targetsE2) { target.SetActive(false); }
         foreach (GameObject target in targetsE3) { target.SetActive(false); }
         foreach (GameObject target in targetsE4) { target.SetActive(false); }
+        foreach (GameObject target in targetsE5) { target.SetActive(false); }
 
         if (nivel == 1)
         {
@@ -128,6 +141,10 @@ public class ControladorMaestro : MonoBehaviour
         else if (nivel == 4)
         {
             foreach (GameObject target in targetsE4) { target.SetActive(true); }
+        }
+        else if (nivel == 5)
+        {
+            foreach (GameObject target in targetsE5) { target.SetActive(true); }
         }
     }
 }
