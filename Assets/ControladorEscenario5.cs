@@ -61,7 +61,7 @@ public class ControladorEscenario5 : MonoBehaviour
             tarjetaExplicacion.SetActive(true);
 
             tituloTarjetaExplicacion.text = "EL PUENTE ENGAÑOSO";
-            textoTarjetaExplicacion.text = "Arrastra la lupa mágica sobre el botón para ver a dónde te lleva realmente.";
+            textoTarjetaExplicacion.text = "Arrastra la lupa mágica sobre la tarjeta para ver a dónde te lleva realmente.";
 
             pasoActual++;
         }
@@ -111,7 +111,7 @@ public class ControladorEscenario5 : MonoBehaviour
 
         tarjetaCorrecto.SetActive(true);
         tituloTarjetaCorrecto.text = "¡TRAMPA EVITADA!";
-        textoTarjetaCorrecto.text = "Esa dirección es extraña y no es oficial. Si no la conoces mejor no entrar. ¡El botón ha sido bloqueado por tu seguridad!";
+        textoTarjetaCorrecto.text = "Esa dirección es extraña y no es oficial. Si no la conoces mejor no entrar. ¡El correo ha sido bloqueado por tu seguridad!";
         if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
     }
 
@@ -123,7 +123,7 @@ public class ControladorEscenario5 : MonoBehaviour
 
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
-        textoTarjetaAyuda.text = "Selecciona el botón con la acción que consideres correcta para este caso.";
+        textoTarjetaAyuda.text = "¿Te parece extraño haber ganado un premio sin haberte registrado?, Selecciona el botón con la acción que consideres correcta para este caso.";
     }
 
     public void OcultarAyuda()
