@@ -6037,7 +6037,7 @@ MonoBehaviour:
   managerE2: {fileID: 2026752098}
   managerE3: {fileID: 222078900}
   managerE4: {fileID: 1432804164}
-  managerE5: {fileID: 0}
+  managerE5: {fileID: 829856042}
   targetsE1:
   - {fileID: 304177354}
   targetsE2:
@@ -6050,7 +6050,9 @@ MonoBehaviour:
   targetsE4:
   - {fileID: 1834301700}
   - {fileID: 1185867542}
-  targetsE5: []
+  targetsE5:
+  - {fileID: 964850860}
+  - {fileID: 384329010}
   pantallaInstruccion: {fileID: 1277200240}
   escenarioActivo: 1
 --- !u!1001 &1260544835
