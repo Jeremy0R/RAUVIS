@@ -8,6 +8,7 @@ public class ControladorMaestro : MonoBehaviour
     public ControladorEscenario3 managerE3;
     public ControladorEscenario4 managerE4;
     public ControladorEscenario5 managerE5;
+    public ControladorEscenario6 managerE6; // NUEVO
 
     [Header("Marcadores Vuforia (Image Targets)")]
     public GameObject[] targetsE1;
@@ -15,6 +16,7 @@ public class ControladorMaestro : MonoBehaviour
     public GameObject[] targetsE3;
     public GameObject[] targetsE4;
     public GameObject[] targetsE5;
+    public GameObject[] targetsE6; // NUEVO
 
     [Header("Interfaz Global")]
     public GameObject pantallaInstruccion;
@@ -25,16 +27,14 @@ public class ControladorMaestro : MonoBehaviour
     void Start()
     {
         ActivarTargetsEscenario(escenarioActivo);
-        if (pantallaInstruccion != null) pantallaInstruccion.SetActive(true); // Se enciende al abrir la app
+        if (pantallaInstruccion != null) pantallaInstruccion.SetActive(true);
     }
 
-    // --- NUEVA FUNCIÓN PARA APAGAR LA INSTRUCCIÓN ---
     public void OcultarInstruccionGlobal()
     {
         if (pantallaInstruccion != null) pantallaInstruccion.SetActive(false);
     }
 
-    // --- BOTÓN DE CARD_BASE ---
     public void BotonBasePresionado()
     {
         if (escenarioActivo == 1) managerE1.BotonContinuarBase();
@@ -42,9 +42,9 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 3) managerE3.BotonContinuarBase();
         else if (escenarioActivo == 4) managerE4.BotonContinuarBase();
         else if (escenarioActivo == 5) managerE5.BotonContinuarBase();
+        else if (escenarioActivo == 6) managerE6.BotonContinuarBase(); // NUEVO
     }
 
-    // --- BOTÓN DE CARD_ERROR ---
     public void BotonErrorPresionado()
     {
         if (escenarioActivo == 1) managerE1.MostrarOpciones();
@@ -52,9 +52,9 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 3) managerE3.BotonBorrarPresionado();
         else if (escenarioActivo == 4) managerE4.RestaurarDespuesDeError();
         else if (escenarioActivo == 5) managerE5.RestaurarDespuesDeError();
+        else if (escenarioActivo == 6) managerE6.RestaurarDespuesDeError(); // NUEVO
     }
 
-    // --- BOTÓN DE CARD_CORRECTO ---
     public void BotonCorrectoPresionado()
     {
         if (escenarioActivo == 1)
@@ -76,20 +76,26 @@ public class ControladorMaestro : MonoBehaviour
         }
         else if (escenarioActivo == 4)
         {
-            CambiarEscenarioActivo(5); // Preparado para el E5
+            CambiarEscenarioActivo(5);
             managerE4.tarjetaCorrecto.SetActive(false);
             managerE4.grupoOpciones.SetActive(false);
         }
         else if (escenarioActivo == 5)
         {
-            CambiarEscenarioActivo(6); // ¡Rumbo al último nivel!
+            CambiarEscenarioActivo(6);
             managerE5.tarjetaCorrecto.SetActive(false);
             managerE5.grupoOpciones.SetActive(false);
             if (managerE5.pantallaLupa != null) managerE5.pantallaLupa.SetActive(false);
         }
+        else if (escenarioActivo == 6)
+        {
+            // EL GRAN FINAL
+            managerE6.tarjetaCorrecto.SetActive(false);
+            managerE6.grupoOpciones.SetActive(false);
+            managerE6.MostrarFelicitacion(); // Llama a la tarjeta final en lugar de cambiar de nivel
+        }
     }
 
-    // --- BOTÓN PARA ABRIR LA AYUDA (?) ---
     public void BotonAyudaPresionado()
     {
         if (escenarioActivo == 1) managerE1.MostrarAyuda();
@@ -97,9 +103,9 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 3) managerE3.MostrarAyuda();
         else if (escenarioActivo == 4) managerE4.MostrarAyuda();
         else if (escenarioActivo == 5) managerE5.MostrarAyuda();
+        else if (escenarioActivo == 6) managerE6.MostrarAyuda(); // NUEVO
     }
 
-    // --- BOTÓN PARA CERRAR LA AYUDA ---
     public void BotonAyudaEntendido()
     {
         if (escenarioActivo == 1) managerE1.MostrarOpciones();
@@ -107,15 +113,13 @@ public class ControladorMaestro : MonoBehaviour
         else if (escenarioActivo == 3) managerE3.OcultarAyuda();
         else if (escenarioActivo == 4) managerE4.OcultarAyuda();
         else if (escenarioActivo == 5) managerE5.OcultarAyuda();
+        else if (escenarioActivo == 6) managerE6.OcultarAyuda(); // NUEVO
     }
 
-    // --- CONTROL DE FLUJO Y VUFORIA ---
     public void CambiarEscenarioActivo(int numeroNivel)
     {
         escenarioActivo = numeroNivel;
         ActivarTargetsEscenario(numeroNivel);
-
-        // Encendemos la instrucción global mientras el usuario busca el nuevo target
         if (pantallaInstruccion != null) pantallaInstruccion.SetActive(true);
     }
 
@@ -126,26 +130,13 @@ public class ControladorMaestro : MonoBehaviour
         foreach (GameObject target in targetsE3) { target.SetActive(false); }
         foreach (GameObject target in targetsE4) { target.SetActive(false); }
         foreach (GameObject target in targetsE5) { target.SetActive(false); }
+        foreach (GameObject target in targetsE6) { target.SetActive(false); } // NUEVO
 
-        if (nivel == 1)
-        {
-            foreach (GameObject target in targetsE1) { target.SetActive(true); }
-        }
-        else if (nivel == 2)
-        {
-            foreach (GameObject target in targetsE2) { target.SetActive(true); }
-        }
-        else if (nivel == 3)
-        {
-            foreach (GameObject target in targetsE3) { target.SetActive(true); }
-        }
-        else if (nivel == 4)
-        {
-            foreach (GameObject target in targetsE4) { target.SetActive(true); }
-        }
-        else if (nivel == 5)
-        {
-            foreach (GameObject target in targetsE5) { target.SetActive(true); }
-        }
+        if (nivel == 1) foreach (GameObject target in targetsE1) { target.SetActive(true); }
+        else if (nivel == 2) foreach (GameObject target in targetsE2) { target.SetActive(true); }
+        else if (nivel == 3) foreach (GameObject target in targetsE3) { target.SetActive(true); }
+        else if (nivel == 4) foreach (GameObject target in targetsE4) { target.SetActive(true); }
+        else if (nivel == 5) foreach (GameObject target in targetsE5) { target.SetActive(true); }
+        else if (nivel == 6) foreach (GameObject target in targetsE6) { target.SetActive(true); } // NUEVO
     }
 }
