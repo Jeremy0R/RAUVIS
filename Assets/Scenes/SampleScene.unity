@@ -2295,7 +2295,7 @@ MonoBehaviour:
   PreviewVisible: 1
   RuntimeOcclusion: 0
   RuntimeCollider: 0
-  mTrackableName: e_4_2
+  mTrackableName: e_5_2
   mInitializedInEditor: 1
   mDataSetPath: Vuforia/RAUVIS_Targets.xml
   mAspectRatio: 1
