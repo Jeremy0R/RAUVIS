@@ -186,18 +186,18 @@ PrefabInstance:
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1432804164}
+      objectReference: {fileID: 829856042}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BotonEnviarDinero
+      value: BotonVisitarSitio
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ControladorEscenario4, Assembly-CSharp
+      value: ControladorEscenario5, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -3890,7 +3890,7 @@ MonoBehaviour:
   textoBotonCorrecto: {fileID: 1530363241}
   tarjetaAyuda: {fileID: 2075078566}
   tituloTarjetaAyuda: {fileID: 1600522539}
-  textoTarjetaAyuda: {fileID: 2075078568}
+  textoTarjetaAyuda: {fileID: 2075078567}
 --- !u!1 &868172746
 GameObject:
   m_ObjectHideFlags: 0
@@ -7427,18 +7427,18 @@ PrefabInstance:
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1432804164}
+      objectReference: {fileID: 829856042}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: BotonRealizarLlamada
+      value: BotonBloquearSitio
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ControladorEscenario4, Assembly-CSharp
+      value: ControladorEscenario5, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -9395,17 +9395,6 @@ GameObject:
 --- !u!114 &2075078567 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7057365591005590914, guid: b1255123f102b7e4a84c02191e9978f3, type: 3}
-  m_PrefabInstance: {fileID: 2075078564}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
---- !u!114 &2075078568 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3968416643218887360, guid: b1255123f102b7e4a84c02191e9978f3, type: 3}
   m_PrefabInstance: {fileID: 2075078564}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

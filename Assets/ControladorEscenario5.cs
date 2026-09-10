@@ -76,17 +76,23 @@ public class ControladorEscenario5 : MonoBehaviour
     }
 
     // --- FUNCIONES DE ESCANEO (VUFORIA target_E5) ---
+  
     public void ActivarLinkYBotones()
     {
-        if (pasoActual > 0)
+        // EL CANDADO: Solo se activa si ya pasamos la explicación Y las tarjetas están apagadas
+        if (pasoActual > 0 && !tarjetaAyuda.activeSelf && !tarjetaError.activeSelf && !tarjetaCorrecto.activeSelf)
         {
             targetDetectado = true;
             cardLinkSospechoso.SetActive(true);
             grupoBotonesAccion.SetActive(true);
             grupoOpciones.SetActive(true);
 
-            // NUEVO: Apagamos la lupa al encontrar el target para limpiar la pantalla
             if (pantallaLupa != null) pantallaLupa.SetActive(false);
+        }
+        else if (pasoActual > 0)
+        {
+            // Si hay una tarjeta abierta, solo registramos que se detectó en el fondo, pero no encendemos nada visual
+            targetDetectado = true;
         }
     }
 
