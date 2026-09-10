@@ -24,7 +24,7 @@ public class ControladorMaestro : MonoBehaviour
 
     void Start()
     {
-        ActivarTargetsEscenario(1);
+        ActivarTargetsEscenario(escenarioActivo);
         if (pantallaInstruccion != null) pantallaInstruccion.SetActive(true); // Se enciende al abrir la app
     }
 
