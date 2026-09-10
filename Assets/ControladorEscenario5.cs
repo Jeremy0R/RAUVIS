@@ -84,6 +84,9 @@ public class ControladorEscenario5 : MonoBehaviour
             cardLinkSospechoso.SetActive(true);
             grupoBotonesAccion.SetActive(true);
             grupoOpciones.SetActive(true);
+
+            // NUEVO: Apagamos la lupa al encontrar el target para limpiar la pantalla
+            if (pantallaLupa != null) pantallaLupa.SetActive(false);
         }
     }
 
@@ -92,6 +95,9 @@ public class ControladorEscenario5 : MonoBehaviour
         targetDetectado = false;
         cardLinkSospechoso.SetActive(false);
         grupoBotonesAccion.SetActive(false);
+
+        // NUEVO: Volvemos a encender la lupa si se pierde el target de vista
+        if (pasoActual > 0 && pantallaLupa != null) pantallaLupa.SetActive(true);
     }
 
     // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN ---
@@ -120,10 +126,11 @@ public class ControladorEscenario5 : MonoBehaviour
     {
         if (cardLinkSospechoso != null) cardLinkSospechoso.SetActive(false);
         if (grupoBotonesAccion != null) grupoBotonesAccion.SetActive(false);
+        if (pantallaLupa != null) pantallaLupa.SetActive(false); // NUEVO: Apaga la lupa
 
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
-        textoTarjetaAyuda.text = "¿Te parece extraño haber ganado un premio sin haberte registrado?, Selecciona el botón con la acción que consideres correcta para este caso.";
+        textoTarjetaAyuda.text = "¿Te parece extraño haber ganado un premio sin haberte registrado? Selecciona el botón con la acción que consideres correcta para este caso.";
     }
 
     public void OcultarAyuda()
@@ -131,8 +138,14 @@ public class ControladorEscenario5 : MonoBehaviour
         tarjetaAyuda.SetActive(false);
         if (targetDetectado)
         {
+            // Si estaba viendo el link, se lo devolvemos
             cardLinkSospechoso.SetActive(true);
             grupoBotonesAccion.SetActive(true);
+        }
+        else if (pasoActual > 0)
+        {
+            // Si NO estaba viendo el link, le devolvemos la lupa para que siga buscando
+            if (pantallaLupa != null) pantallaLupa.SetActive(true);
         }
     }
 
