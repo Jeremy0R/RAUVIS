@@ -85,6 +85,7 @@ public class ControladorMaestro : MonoBehaviour
             CambiarEscenarioActivo(6); // ¡Rumbo al último nivel!
             managerE5.tarjetaCorrecto.SetActive(false);
             managerE5.grupoOpciones.SetActive(false);
+            if (managerE5.pantallaLupa != null) managerE5.pantallaLupa.SetActive(false);
         }
     }
 

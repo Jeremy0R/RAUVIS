@@ -97,7 +97,10 @@ public class ControladorEscenario5 : MonoBehaviour
         grupoBotonesAccion.SetActive(false);
 
         // NUEVO: Volvemos a encender la lupa si se pierde el target de vista
-        if (pasoActual > 0 && pantallaLupa != null) pantallaLupa.SetActive(true);
+        if (pasoActual > 0 && pantallaLupa != null && !tarjetaCorrecto.activeSelf && !tarjetaError.activeSelf)
+        {
+            pantallaLupa.SetActive(true);
+        }
     }
 
     // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN ---
