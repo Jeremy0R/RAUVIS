@@ -125,7 +125,7 @@ public class ControladorEscenario4 : MonoBehaviour
 
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
-        textoTarjetaAyuda.text = "Selecciona el botón con la acción que consideres correcta para este caso.";
+        textoTarjetaAyuda.text = "Escanea la imagen y selecciona el botón con la acción que consideres correcta para este caso.";
     }
 
     public void OcultarAyuda()
