@@ -129,7 +129,7 @@ public class ControladorEscenario6 : MonoBehaviour
         OcultarTodo();
         tarjetaFelicitacion.SetActive(true);
         tituloTarjetaFelicitacion.text = "¡FELICITACIONES!";
-        textoTarjetaFelicitacion.text = "Llegamos al final de nuestro recorrido. Demostraste que la tecnología no tiene porqué ser difícil ni dar miedo. Recuerda: Tómate tu tiempo para leer y confía en tu instinto. ¡Estás totalmente protegido!";
+        textoTarjetaFelicitacion.text = "La tecnología no tiene por qué ser difícil. Tómate tu tiempo al leer, confía en tu instinto y ¡navega seguro!";
     }
 
     public void BotonFinalizarJuego()

@@ -8868,6 +8868,18 @@ PrefabInstance:
       value: -620
       objectReference: {fileID: 0}
     - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.58281
+      objectReference: {fileID: 0}
+    - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.58281
+      objectReference: {fileID: 0}
+    - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.58281
+      objectReference: {fileID: 0}
+    - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -8877,7 +8889,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.36658
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8897,11 +8909,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 38.168854
+      value: 68
       objectReference: {fileID: 0}
     - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -9.807861
+      value: 52
       objectReference: {fileID: 0}
     - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -8914,6 +8926,11 @@ PrefabInstance:
     - target: {fileID: 3863447995358397056, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5285115638331515963, guid: 445bcbecfbca7024dbe2d8fe64115d89, type: 3}
+      propertyPath: m_text
+      value: "La tecnolog\xEDa no tiene por qu\xE9 ser dif\xEDcil. T\xF3mate tu tiempo
+        al leer, conf\xEDa en tu instinto y \xA1navega seguro!"
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
