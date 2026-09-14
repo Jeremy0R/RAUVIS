@@ -1,37 +1,52 @@
 using UnityEngine;
 using TMPro;
+using System.Collections; // Necesario para la corrutina de tiempo
 
 public class ControladorBienvenida : MonoBehaviour
 {
-    [Header("Control de Fondo")]
-    public GameObject panelFondoSolido; // Un panel de color que tapa la cámara de Vuforia
+    [Header("Fondos Principales")]
+    public GameObject panelSplashScreen; // El fondo azul con el logo (SCREEN_One)
+    public GameObject panelInstrucciones; // El fondo verde que se queda fijo
 
-    [Header("Pantalla 0: Splash Screen")]
-    public GameObject pantallaSplash;
-    // Nota: El botón del Splash debe llamar a "AvanzarPaso()"
+    [Header("Tarjeta 1: Base")]
+    public GameObject tarjetaBase;
+    public TextMeshProUGUI tituloBase;
+    public TextMeshProUGUI contenidoBase;
+    public TextMeshProUGUI textoBotonBase;
 
-    [Header("Pantallas 1 al 6: Tarjeta Onboarding")]
-    public GameObject pantallaTarjetas; // Contenedor de la Card_Base
-    public TextMeshProUGUI tituloTarjeta;
-    public TextMeshProUGUI contenidoTarjeta;
-    public TextMeshProUGUI textoBotonContinuar; // Para cambiar entre "Continuar" y "Empezar"
+    [Header("Tarjeta 2: Explicación (Alterna)")]
+    public GameObject tarjetaExplicacion;
+    public TextMeshProUGUI tituloExplicacion;
+    public TextMeshProUGUI contenidoExplicacion;
+    public TextMeshProUGUI textoBotonExplicacion;
 
     [Header("Elementos Visuales Centrales")]
-    public GameObject bottyAvatar; // El modelo o imagen de Botty
-    public GameObject animacionAgarre; // Animación de las dos manos
-    public GameObject animacionCamara; // Animación del dedo no tapando la cámara
-    public GameObject iconoAyuda; // El círculo morado con el '?'
+    public GameObject bottyAvatar;
+    public GameObject animacionAgarre;
+    public GameObject animacionCamara;
+    public GameObject iconoAyuda;
 
     [Header("Conexión con el Maestro")]
-    public ControladorMaestro maestro; // Para avisarle que empiece el Escenario 1
+    public ControladorMaestro maestro;
 
     private int pasoActual = 0;
 
     void Start()
     {
-        // Al iniciar la app, forzamos el Splash Screen y tapamos la cámara
-        if (panelFondoSolido != null) panelFondoSolido.SetActive(true);
+        // Iniciamos apagando el fondo verde y mostrando solo el Splash
+        if (panelInstrucciones != null) panelInstrucciones.SetActive(false);
+        if (panelSplashScreen != null) panelSplashScreen.SetActive(true);
+
         MostrarPaso(0);
+
+        // Iniciamos el temporizador de 5 segundos
+        StartCoroutine(RutinaSplashScreen());
+    }
+
+    private IEnumerator RutinaSplashScreen()
+    {
+        yield return new WaitForSeconds(5f);
+        AvanzarPaso(); // Pasa automáticamente al paso 1 después de 5 segundos
     }
 
     public void AvanzarPaso()
@@ -49,16 +64,15 @@ public class ControladorBienvenida : MonoBehaviour
 
     public void OmitirBienvenida()
     {
-        // Si el usuario presiona "Omitir", lo mandamos directo al final del onboarding
-        pasoActual = 6;
-        MostrarPaso(pasoActual);
+        // El botón omitir finaliza el onboarding directo y nos lleva al inicio/AR
+        FinalizarBienvenida();
     }
 
     private void MostrarPaso(int paso)
     {
-        // Apagamos todo primero para limpiar la pantalla
-        pantallaSplash.SetActive(false);
-        pantallaTarjetas.SetActive(false);
+        // Limpiamos los elementos dinámicos en cada cambio
+        tarjetaBase.SetActive(false);
+        tarjetaExplicacion.SetActive(false);
         bottyAvatar.SetActive(false);
         animacionAgarre.SetActive(false);
         animacionCamara.SetActive(false);
@@ -66,69 +80,70 @@ public class ControladorBienvenida : MonoBehaviour
 
         switch (paso)
         {
-            case 0: // SCREEN_One (Splash)
-                pantallaSplash.SetActive(true);
+            case 0:
+                // El Splash Screen se maneja en el Start, aquí solo esperamos.
                 break;
 
-            case 1: // BIENVENIDA
-                pantallaTarjetas.SetActive(true);
+            case 1: // BIENVENIDA (Usa Tarjeta Base)
+                panelSplashScreen.SetActive(false); // Apagamos el splash azul
+                panelInstrucciones.SetActive(true); // Encendemos el fondo verde
+
+                tarjetaBase.SetActive(true);
                 bottyAvatar.SetActive(true);
-                tituloTarjeta.text = "Bienvenido a RAUVIS";
-                contenidoTarjeta.text = "¡Hola!\nSoy BOTTY y seré tu asistente virtual en esta aventura.";
-                textoBotonContinuar.text = "CONTINUAR";
+                tituloBase.text = "Bienvenido a RAUVIS";
+                contenidoBase.text = "¡Hola!\nSoy BOTTY y seré tu asistente virtual en esta aventura.";
+                textoBotonBase.text = "CONTINUAR";
                 break;
 
-            case 2: // BIENVENIDA_EXPLICACIÓN
-                pantallaTarjetas.SetActive(true);
+            case 2: // BIENVENIDA_EXPLICACIÓN (Usa Tarjeta Explicación)
+                tarjetaExplicacion.SetActive(true);
                 bottyAvatar.SetActive(true);
-                tituloTarjeta.text = "Bienvenido a RAUVIS";
-                contenidoTarjeta.text = "Aprenderás a detectar correos estafadores y a proteger mejor tus datos.";
-                textoBotonContinuar.text = "CONTINUAR";
+                tituloExplicacion.text = "Bienvenido a RAUVIS";
+                contenidoExplicacion.text = "Aprenderás a detectar correos estafadores y a proteger mejor tus datos.";
+                textoBotonExplicacion.text = "CONTINUAR";
                 break;
 
-            case 3: // BIENVENIDA_AGARRE
-                pantallaTarjetas.SetActive(true);
+            case 3: // BIENVENIDA_AGARRE (Usa Tarjeta Base)
+                tarjetaBase.SetActive(true);
                 animacionAgarre.SetActive(true);
-                tituloTarjeta.text = "¡Ponte cómodo!";
-                contenidoTarjeta.text = "Sostén tu celular con ambas manos. Esto te ayudará a mantenerlo firme y evitará que te canses rápido.";
-                textoBotonContinuar.text = "CONTINUAR";
+                tituloBase.text = "¡Ponte cómodo!";
+                contenidoBase.text = "Sostén tu celular con ambas manos. Esto te ayudará a mantenerlo firme y evitará que te canses rápido.";
+                textoBotonBase.text = "CONTINUAR";
                 break;
 
-            case 4: // BIENVENIDA_CÁMARA
-                pantallaTarjetas.SetActive(true);
+            case 4: // BIENVENIDA_CÁMARA (Usa Tarjeta Explicación)
+                tarjetaExplicacion.SetActive(true);
                 animacionCamara.SetActive(true);
-                tituloTarjeta.text = "Tu ventana al mundo";
-                contenidoTarjeta.text = "Asegúrate de no cubrir la cámara con tus dedos. ¡La necesitaremos para ver la magia!";
-                textoBotonContinuar.text = "CONTINUAR";
+                tituloExplicacion.text = "Tu ventana al mundo";
+                contenidoExplicacion.text = "Asegúrate de no cubrir la cámara con tus dedos. ¡La necesitaremos para ver la magia!";
+                textoBotonExplicacion.text = "CONTINUAR";
                 break;
 
-            case 5: // BIENVENIDA_AYUDA
-                pantallaTarjetas.SetActive(true);
+            case 5: // BIENVENIDA_AYUDA (Usa Tarjeta Base)
+                tarjetaBase.SetActive(true);
                 iconoAyuda.SetActive(true);
-                tituloTarjeta.text = "¿Estás perdido?";
-                contenidoTarjeta.text = "Si necesitas ayuda, toca el botón de ayuda y yo apareceré.";
-                textoBotonContinuar.text = "CONTINUAR";
+                tituloBase.text = "¿Estás perdido?";
+                contenidoBase.text = "Si necesitas ayuda, toca el botón de ayuda y yo apareceré.";
+                textoBotonBase.text = "CONTINUAR";
                 break;
 
-            case 6: // BIENVENIDA_FIN
-                pantallaTarjetas.SetActive(true);
+            case 6: // BIENVENIDA_FIN (Usa Tarjeta Explicación)
+                tarjetaExplicacion.SetActive(true);
                 bottyAvatar.SetActive(true);
-                tituloTarjeta.text = "¡Todo listo!";
-                contenidoTarjeta.text = "Ve a tu propio ritmo sin miedo a equivocarte. Estamos aquí para aprender y divertirnos paso a paso.";
-                textoBotonContinuar.text = "EMPEZAR"; // Cambia el texto del botón para el final
+                tituloExplicacion.text = "¡Todo listo!";
+                contenidoExplicacion.text = "Ve a tu propio ritmo sin miedo a equivocarte. Estamos aquí para aprender y divertirnos paso a paso.";
+                textoBotonExplicacion.text = "EMPEZAR";
                 break;
         }
     }
 
     private void FinalizarBienvenida()
     {
-        // 1. Apagamos toda la UI de bienvenida
+        // Apagamos todo el onboarding
         gameObject.SetActive(false);
+        if (panelInstrucciones != null) panelInstrucciones.SetActive(false);
 
-        // 2. Quitamos el panel sólido para revelar la cámara de Realidad Aumentada
-        if (panelFondoSolido != null) panelFondoSolido.SetActive(false);
-
-        // 3. Le avisamos al Controlador Maestro que inicie el Escenario 1
+        // Despertamos al Maestro para iniciar la experiencia en el Nivel 1
         maestro.CambiarEscenarioActivo(1);
     }
 }
