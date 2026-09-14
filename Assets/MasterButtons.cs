@@ -27,7 +27,7 @@ public class ControladorMaestro : MonoBehaviour
     void Start()
     {
         ActivarTargetsEscenario(escenarioActivo);
-        if (pantallaInstruccion != null) pantallaInstruccion.SetActive(true);
+        if (pantallaInstruccion != null) pantallaInstruccion.SetActive(false);
     }
 
     public void OcultarInstruccionGlobal()
