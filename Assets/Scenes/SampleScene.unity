@@ -9300,7 +9300,7 @@ MonoBehaviour:
   contenidoExplicacion: {fileID: 1728322864}
   textoBotonExplicacion: {fileID: 1728322863}
   animacionAgarre: {fileID: 1687873984}
-  animacionCamara: {fileID: 0}
+  animacionCamara: {fileID: 495262891}
   iconoAyuda: {fileID: 665888349}
   maestro: {fileID: 1249460589}
 --- !u!4 &1767016796
