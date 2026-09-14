@@ -3,6 +3,7 @@ using UnityEngine;
 public class ControladorMaestro : MonoBehaviour
 {
     [Header("Conecta tus Escenarios")]
+    public ControladorBienvenida managerBienvenida;
     public ControladorEscenario1 managerE1;
     public ControladorEscenario2 managerE2;
     public ControladorEscenario3 managerE3;
@@ -37,7 +38,8 @@ public class ControladorMaestro : MonoBehaviour
 
     public void BotonBasePresionado()
     {
-        if (escenarioActivo == 1) managerE1.BotonContinuarBase();
+        if (escenarioActivo == 0) managerBienvenida.AvanzarPaso(); // <-- ESTA LÍNEA NUEVA
+        else if (escenarioActivo == 1) managerE1.BotonContinuarBase();
         else if (escenarioActivo == 2) managerE2.BotonContinuarBase();
         else if (escenarioActivo == 3) managerE3.BotonContinuarBase();
         else if (escenarioActivo == 4) managerE4.BotonContinuarBase();
