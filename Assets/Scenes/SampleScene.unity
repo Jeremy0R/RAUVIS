@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6df4ded6209e1ad4b89bfdc222d8cb28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControladorNavegacion
+  contenedorVistas: {fileID: 976810348}
   vistaInicio: {fileID: 1019410078}
   vistaLecciones: {fileID: 1727953954}
   vistaEscaner: {fileID: 397258541}
@@ -7078,8 +7079,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1632093021}
   - {fileID: 1230000771}
+  - {fileID: 1632093021}
   - {fileID: 127166696}
   - {fileID: 800516689}
   - {fileID: 344322742}
