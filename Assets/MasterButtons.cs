@@ -121,6 +121,10 @@ public class ControladorMaestro : MonoBehaviour
     public void CambiarEscenarioActivo(int numeroNivel)
     {
         escenarioActivo = numeroNivel;
+
+        PlayerPrefs.SetInt("NivelGuardado", escenarioActivo);
+        PlayerPrefs.Save();
+
         ActivarTargetsEscenario(numeroNivel);
         if (pantallaInstruccion != null) pantallaInstruccion.SetActive(true);
     }

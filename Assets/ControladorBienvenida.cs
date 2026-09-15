@@ -31,6 +31,7 @@ public class ControladorBienvenida : MonoBehaviour
 
     [Header("Conexión con el Maestro")]
     public ControladorMaestro maestro;
+    public ControladorNavegacion navegacion;
 
     private int pasoActual = 0;
     private bool enTransicion = false; // Para evitar que el usuario toque botones mientras se anima
@@ -194,6 +195,6 @@ public class ControladorBienvenida : MonoBehaviour
     {
         gameObject.SetActive(false);
         if (panelInstrucciones != null) panelInstrucciones.SetActive(false);
-        maestro.CambiarEscenarioActivo(1);
+        navegacion.MostrarMenuPrincipal();
     }
 }
