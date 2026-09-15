@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.UI; // Para el Slider
+using UnityEngine.UI;
 using TMPro;
 
 public class ControladorNavegacion : MonoBehaviour
 {
     [Header("Vistas Principales")]
+    public GameObject contenedorVistas; // NUEVO: La carpeta padre "Vistas_Menu"
     public GameObject vistaInicio;
     public GameObject vistaLecciones;
     public GameObject vistaEscaner;
@@ -14,18 +15,21 @@ public class ControladorNavegacion : MonoBehaviour
     public GameObject barraNavegacion;
 
     [Header("UI Tarjeta Progreso")]
-    public TextMeshProUGUI textoBotonAccion; // El que dirá "INICIAR" o "CONTINUAR"
-    public TextMeshProUGUI textoProgreso; // "X de 6 actividades"
-    public Slider barraProgreso; // La barrita visual
+    public TextMeshProUGUI textoBotonAccion;
+    public TextMeshProUGUI textoProgreso;
+    public Slider barraProgreso;
 
     [Header("Conexiones")]
     public ControladorMaestro maestro;
 
-    private int nivelActualGuardado = 1; // Por defecto empezamos en el 1
+    private int nivelActualGuardado = 1;
 
     void Start()
     {
-        // Leemos el progreso guardado en la memoria del teléfono. Si no hay, devuelve 1.
+        // ¡NUEVO! Apagamos los menús al arrancar para que no estorben a la Bienvenida
+        if (contenedorVistas != null) contenedorVistas.SetActive(false);
+        if (barraNavegacion != null) barraNavegacion.SetActive(false);
+
         nivelActualGuardado = PlayerPrefs.GetInt("NivelGuardado", 1);
         ActualizarInterfazProgreso();
     }
@@ -46,7 +50,6 @@ public class ControladorNavegacion : MonoBehaviour
 
     public void IrAEscaner()
     {
-        // Al tocar "Escáner" en la barra inferior, podemos mandar al usuario a la vista de escáner en espera
         ApagarTodasLasVistas();
         vistaEscaner.SetActive(true);
     }
@@ -68,23 +71,19 @@ public class ControladorNavegacion : MonoBehaviour
     // --- LÓGICA DE PROGRESO Y BOTÓN CENTRAL ---
     public void ActualizarInterfazProgreso()
     {
-        // Recalculamos por si el Maestro guardó un nuevo nivel
         nivelActualGuardado = PlayerPrefs.GetInt("NivelGuardado", 1);
+        int escenariosCompletados = nivelActualGuardado - 1;
 
-        int escenariosCompletados = nivelActualGuardado - 1; // Si estás en el E1, has completado 0.
-
-        // Actualizamos textos
         textoProgreso.text = escenariosCompletados + " de 6 actividades";
         barraProgreso.value = escenariosCompletados;
 
-        // Lógica del botón INICIAR / CONTINUAR
         if (escenariosCompletados == 0)
         {
             textoBotonAccion.text = "INICIAR";
         }
         else if (escenariosCompletados >= 6)
         {
-            textoBotonAccion.text = "REPETIR"; // Si ya acabó todo
+            textoBotonAccion.text = "REPETIR";
             textoProgreso.text = "¡Misión Cumplida!";
         }
         else
@@ -93,24 +92,26 @@ public class ControladorNavegacion : MonoBehaviour
         }
     }
 
-    // Se ejecuta al presionar el botón morado de la tarjeta "Detecta una estafa"
     public void BotonJugarPresionado()
     {
-        // Apagamos los menús para ver la cámara
         ApagarTodasLasVistas();
-        barraNavegacion.SetActive(false); // Ocultamos la barra inferior para que no estorbe en AR
+        barraNavegacion.SetActive(false);
 
-        // Le decimos al Maestro que inicie en el nivel guardado
+        // ¡NUEVO! También apagamos el contenedor padre para que no estorbe la cámara AR
+        if (contenedorVistas != null) contenedorVistas.SetActive(false);
+
         int nivelParaJugar = PlayerPrefs.GetInt("NivelGuardado", 1);
-        if (nivelParaJugar > 6) nivelParaJugar = 6; // Límite de seguridad
+        if (nivelParaJugar > 6) nivelParaJugar = 6;
 
         maestro.CambiarEscenarioActivo(nivelParaJugar);
     }
 
-    // Función para mostrar el menú desde otras partes (Ej. al terminar el Onboarding o picar un botón Back)
     public void MostrarMenuPrincipal()
     {
-        barraNavegacion.SetActive(true);
+        // ¡NUEVO! Encendemos la carpeta padre y la barra
+        if (contenedorVistas != null) contenedorVistas.SetActive(true);
+        if (barraNavegacion != null) barraNavegacion.SetActive(true);
+
         IrAInicio();
     }
 }

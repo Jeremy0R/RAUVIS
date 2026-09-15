@@ -7216,18 +7216,18 @@ PrefabInstance:
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1767016795}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: OmitirBienvenida
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ControladorEscenario1, Assembly-CSharp
+      value: ControladorBienvenida, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3176090677398746465, guid: 53f64641773240743b221e61be9d709d, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -12728,7 +12728,7 @@ MonoBehaviour:
   animacionCamara: {fileID: 495262891}
   iconoAyuda: {fileID: 665888349}
   maestro: {fileID: 1249460589}
-  navegacion: {fileID: 0}
+  navegacion: {fileID: 2687871}
 --- !u!4 &1767016796
 Transform:
   m_ObjectHideFlags: 0
