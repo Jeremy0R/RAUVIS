@@ -1,21 +1,34 @@
+/* ==============================================================================
+ * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
+ * SCRIPT: ControladorEscenario3.cs
+ * DESCRIPCIÓN: Gestiona el Escenario 3 (Archivos Adjuntos Peligrosos). 
+ *              Implementa la lógica para escanear un objetivo con Vuforia, 
+ *              mostrar una animación de análisis de virus y dar retroalimentación.
+ * ============================================================================== */
+
 using UnityEngine;
 using TMPro;
 using System.Collections;
 
 public class ControladorEscenario3 : MonoBehaviour
 {
+    // --- CONEXIONES GLOBALES ---
+    [Header("Conexiones del Sistema")]
+    public ControladorNavegacion navegacion; // NUEVO: Permite regresar al Hub principal
+    public ControladorMaestro maestro;       // NUEVO: Controla el estado general y el AR
+
+    // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
     public GameObject tarjetaBase;
     public TextMeshProUGUI tituloTarjetaBase;
     public TextMeshProUGUI textoTarjetaBase;
 
-    // NUEVO: Variables para la tarjeta con Botty explicando
     public GameObject tarjetaExplicacion;
     public TextMeshProUGUI tituloTarjetaExplicacion;
     public TextMeshProUGUI textoTarjetaExplicacion;
 
     [Header("Opciones del Escenario")]
-    public GameObject grupoOpciones;
+    public GameObject grupoOpciones; // Botones globales: Ayuda (?) y Atrás (<)
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -33,9 +46,10 @@ public class ControladorEscenario3 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaAyuda;
 
     [Header("Elementos de Escaneo y Animación")]
-    public GameObject botonAnalizar;
-    public GameObject animacionScanner;
+    public GameObject botonAnalizar; // Botón flotante AR
+    public GameObject animacionScanner; // Animación de escaneo de virus
 
+    // Controla la fase de la introducción
     private int pasoActual = 0;
 
     void Start()
@@ -43,7 +57,9 @@ public class ControladorEscenario3 : MonoBehaviour
         OcultarTodo();
     }
 
-    // --- FUNCIONES DE FLUJO ---
+    // --- FUNCIONES DE FLUJO (INTRODUCCIÓN) ---
+
+    // Se invoca al iniciar el nivel para configurar el estado inicial
     public void IniciarEscenario()
     {
         pasoActual = 0;
@@ -56,11 +72,12 @@ public class ControladorEscenario3 : MonoBehaviour
         textoTarjetaBase.text = "Este correo contiene un archivo adjunto. Antes de abrir archivos en internet, siempre debemos revisarlo.";
     }
 
+    // Controla la navegación de las tarjetas de diálogo
     public void BotonContinuarBase()
     {
         if (pasoActual == 0)
         {
-            // Apagamos la base y prendemos la explicación con Botty animado
+            // Apagamos la base y prendemos la explicación con Botty
             tarjetaBase.SetActive(false);
             tarjetaExplicacion.SetActive(true);
 
@@ -71,13 +88,15 @@ public class ControladorEscenario3 : MonoBehaviour
         }
         else
         {
-            // Apagamos la explicación y pasamos al escáner
+            // Apagamos la explicación y pasamos a la fase de escáner (Vuforia)
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
         }
     }
 
     // --- FUNCIONES DE ESCANEO (VUFORIA) ---
+
+    // Llamado por Vuforia cuando detecta el marcador (Image Target)
     public void ActivarBotonAnalizar()
     {
         if (pasoActual > 0)
@@ -86,29 +105,34 @@ public class ControladorEscenario3 : MonoBehaviour
         }
     }
 
+    // Llamado por Vuforia cuando se pierde el marcador
     public void DesactivarBotonAnalizar()
     {
         botonAnalizar.SetActive(false);
     }
 
     // --- INTERACCIÓN DE ANÁLISIS Y VIRUS ---
+
+    // Se ejecuta al tocar el botón flotante "Analizar" en el mundo AR
     public void IniciarAnalisis()
     {
         botonAnalizar.SetActive(false);
-        grupoOpciones.SetActive(false);
-        animacionScanner.SetActive(true);
+        grupoOpciones.SetActive(false); // Ocultamos menús para limpiar la vista
+        animacionScanner.SetActive(true); // Iniciamos el GIF/Animación
 
         StartCoroutine(RutinaAnalisis());
     }
 
+    // Simula el tiempo de escaneo del antivirus
     private IEnumerator RutinaAnalisis()
     {
-        yield return new WaitForSeconds(7f);
+        yield return new WaitForSeconds(7f); // Espera 7 segundos
 
         animacionScanner.SetActive(false);
         MostrarAlertaVirus();
     }
 
+    // Muestra la tarjeta de alerta tras finalizar el análisis
     private void MostrarAlertaVirus()
     {
         tarjetaError.SetActive(true);
@@ -119,6 +143,7 @@ public class ControladorEscenario3 : MonoBehaviour
         if (textoBotonError != null) textoBotonError.text = "BORRAR";
     }
 
+    // Se ejecuta al decidir "Borrar" el virus
     public void BotonBorrarPresionado()
     {
         tarjetaError.SetActive(false);
@@ -131,7 +156,8 @@ public class ControladorEscenario3 : MonoBehaviour
         if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
     }
 
-    // --- FUNCIONES AUXILIARES ---
+    // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
+
     public void MostrarAyuda()
     {
         OcultarTodo();
@@ -146,10 +172,19 @@ public class ControladorEscenario3 : MonoBehaviour
         grupoOpciones.SetActive(true);
     }
 
+    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel
+    public void RegresarAlMenuPrincipal()
+    {
+        OcultarTodo();
+        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apaga AR
+        if (navegacion != null) navegacion.MostrarMenuPrincipal(); // Vuelve a Inicio
+    }
+
+    // Limpia la pantalla apagando todas las tarjetas
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);
-        if (tarjetaExplicacion != null) tarjetaExplicacion.SetActive(false); // NUEVO
+        if (tarjetaExplicacion != null) tarjetaExplicacion.SetActive(false);
         tarjetaError.SetActive(false);
         tarjetaCorrecto.SetActive(false);
         tarjetaAyuda.SetActive(false);

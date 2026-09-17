@@ -1,8 +1,22 @@
+/* ==============================================================================
+ * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
+ * SCRIPT: ControladorEscenario6.cs
+ * DESCRIPCIÓN: Gestiona el 6to y último Escenario (Cadenas de Correos). 
+ *              Incluye la lógica de decisión final y la pantalla de felicitación 
+ *              que concluye el flujo de aprendizaje de la aplicación.
+ * ============================================================================== */
+
 using UnityEngine;
 using TMPro;
 
 public class ControladorEscenario6 : MonoBehaviour
 {
+    // --- CONEXIONES GLOBALES ---
+    [Header("Conexiones del Sistema")]
+    public ControladorNavegacion navegacion; // Para volver al inicio al terminar o cancelar
+    public ControladorMaestro maestro;       // Para apagar la AR
+
+    // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
     public GameObject tarjetaBase;
     public TextMeshProUGUI tituloTarjetaBase;
@@ -13,9 +27,9 @@ public class ControladorEscenario6 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaExplicacion;
 
     [Header("Interfaz de Interacción")]
-    public GameObject grupoOpciones; // Botones Back y Ayuda
-    public GameObject pantallaCorreoE6; // La imagen del correo E6
-    public GameObject grupoBotonesAccion; // Botones "Reenviar" y "Borrar"
+    public GameObject grupoOpciones; // Botones globales: Atrás (<) y Ayuda (?)
+    public GameObject pantallaCorreoE6; // El correo falso visualizado
+    public GameObject grupoBotonesAccion; // Botones AR: "Reenviar" y "Borrar"
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -33,10 +47,11 @@ public class ControladorEscenario6 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaAyuda;
 
     [Header("Cierre del Juego")]
-    public GameObject tarjetaFelicitacion;
+    public GameObject tarjetaFelicitacion; // Pantalla final tras completar los 6 niveles
     public TextMeshProUGUI tituloTarjetaFelicitacion;
     public TextMeshProUGUI textoTarjetaFelicitacion;
 
+    // Sensores de estado
     private int pasoActual = 0;
     private bool targetDetectado = false;
 
@@ -45,7 +60,7 @@ public class ControladorEscenario6 : MonoBehaviour
         OcultarTodo();
     }
 
-    // --- FUNCIONES DE FLUJO ---
+    // --- FUNCIONES DE FLUJO (INTRODUCCIÓN) ---
     public void IniciarEscenario()
     {
         pasoActual = 0;
@@ -71,17 +86,17 @@ public class ControladorEscenario6 : MonoBehaviour
         }
         else
         {
-            // Apagamos explicación y encendemos botones morados esperando el target
+            // Apagamos explicación y habilitamos opciones globales
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
             pasoActual++;
         }
     }
 
-    // --- FUNCIONES DE ESCANEO (VUFORIA Target E6) ---
+    // --- FUNCIONES DE ESCANEO (VUFORIA) ---
     public void ActivarCorreoYBotones()
     {
-        // Candado anti-parpadeo
+        // Candado anti-parpadeo: Evita encender cosas si el usuario está viendo retroalimentación o el final
         if (pasoActual > 0 && !tarjetaAyuda.activeSelf && !tarjetaError.activeSelf && !tarjetaCorrecto.activeSelf && !tarjetaFelicitacion.activeSelf)
         {
             targetDetectado = true;
@@ -91,7 +106,7 @@ public class ControladorEscenario6 : MonoBehaviour
         }
         else if (pasoActual > 0)
         {
-            targetDetectado = true;
+            targetDetectado = true; // Solo registramos que lo vio
         }
     }
 
@@ -102,8 +117,10 @@ public class ControladorEscenario6 : MonoBehaviour
         grupoBotonesAccion.SetActive(false);
     }
 
-    // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN ---
-    public void BotonReenviar() // Acción Incorrecta
+    // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN (JUEGO) ---
+
+    // Acción Incorrecta
+    public void BotonReenviar()
     {
         OcultarElementosInteraccion();
 
@@ -113,7 +130,8 @@ public class ControladorEscenario6 : MonoBehaviour
         if (textoBotonError != null) textoBotonError.text = "INTENTAR DE NUEVO";
     }
 
-    public void BotonBorrar() // Acción Correcta
+    // Acción Correcta
+    public void BotonBorrar()
     {
         OcultarElementosInteraccion();
 
@@ -124,6 +142,8 @@ public class ControladorEscenario6 : MonoBehaviour
     }
 
     // --- EL GRAN FINAL ---
+
+    // Se ejecuta desde el ControladorMaestro (o desde tarjetaCorrecto) al finalizar todo
     public void MostrarFelicitacion()
     {
         OcultarTodo();
@@ -132,14 +152,21 @@ public class ControladorEscenario6 : MonoBehaviour
         textoTarjetaFelicitacion.text = "La tecnología no tiene por qué ser difícil. Tómate tu tiempo al leer, confía en tu instinto y ¡navega seguro!";
     }
 
+    // ACTUALIZADO: Cierra oficialmente la experiencia de juego
     public void BotonFinalizarJuego()
     {
-        // Por ahora limpia la pantalla. Aquí en el futuro cargarás tu Pantalla de Inicio
         OcultarTodo();
-        Debug.Log("¡El jugador ha terminado la app! Listo para volver al menú principal.");
+        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apagamos marcadores AR
+
+        // Guardamos explícitamente que ya se completaron todos los niveles (7)
+        PlayerPrefs.SetInt("NivelGuardado", 7);
+        PlayerPrefs.Save();
+
+        // Volvemos al inicio para ver la tarjeta en estado "¡Misión Cumplida!"
+        if (navegacion != null) navegacion.MostrarMenuPrincipal();
     }
 
-    // --- FUNCIONES AUXILIARES ---
+    // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
     public void MostrarAyuda()
     {
         if (pantallaCorreoE6 != null) pantallaCorreoE6.SetActive(false);
@@ -170,6 +197,14 @@ public class ControladorEscenario6 : MonoBehaviour
             pantallaCorreoE6.SetActive(true);
             grupoBotonesAccion.SetActive(true);
         }
+    }
+
+    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel
+    public void RegresarAlMenuPrincipal()
+    {
+        OcultarTodo();
+        if (maestro != null) maestro.CambiarEscenarioActivo(0);
+        if (navegacion != null) navegacion.MostrarMenuPrincipal();
     }
 
     private void OcultarElementosInteraccion()

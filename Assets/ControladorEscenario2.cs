@@ -1,20 +1,33 @@
+/* ==============================================================================
+ * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
+ * SCRIPT: ControladorEscenario2.cs
+ * DESCRIPCIÓN: Gestiona la lógica del Escenario 2 (El Cartero Falso). 
+ *              Controla la transición entre la introducción, el uso de la lupa 
+ *              (escáner) y la retroalimentación al identificar correos falsos.
+ * ============================================================================== */
+
 using UnityEngine;
 using TMPro;
 
 public class ControladorEscenario2 : MonoBehaviour
 {
+    // --- CONEXIONES GLOBALES ---
+    [Header("Conexiones del Sistema")]
+    public ControladorNavegacion navegacion; // Para regresar a Inicio
+    public ControladorMaestro maestro;       // Para apagar la cámara al salir
+
+    // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
     public GameObject tarjetaBase;
     public TextMeshProUGUI tituloTarjetaBase;
     public TextMeshProUGUI textoTarjetaBase;
-    // NUEVO: Variables para la tarjeta con Botty explicando
+
     public GameObject tarjetaExplicacion;
     public TextMeshProUGUI tituloTarjetaExplicacion;
     public TextMeshProUGUI textoTarjetaExplicacion;
 
-    // NUEVO: Agregamos el grupo de opciones para este escenario
     [Header("Opciones del Escenario")]
-    public GameObject grupoOpciones;
+    public GameObject grupoOpciones; // Contiene los botones de Ayuda (?) y Regresar (<)
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -34,22 +47,24 @@ public class ControladorEscenario2 : MonoBehaviour
     public GameObject mailCardMalo;
     public GameObject mailCardBueno;
 
+    // Controla el avance del diálogo inicial
     private int pasoActual = 0;
 
     void Start()
     {
-        // Limpieza inicial
+        // Limpieza inicial para que no se superpongan cosas al abrir la app
         OcultarTodo();
     }
 
     // --- FUNCIONES DE FLUJO ---
 
+    // Configura el nivel desde cero cuando se activa
     public void IniciarEscenario()
     {
         pasoActual = 0;
         OcultarTodo();
 
-        // Encendemos la tarjeta base y el grupo de opciones (Botón de Ayuda y Regresar)
+        // Encendemos la tarjeta base y apagamos botones secundarios para enfocar la lectura
         tarjetaBase.SetActive(true);
         grupoOpciones.SetActive(false);
 
@@ -57,6 +72,7 @@ public class ControladorEscenario2 : MonoBehaviour
         textoTarjetaBase.text = "Alguien envió un correo del banco, pero los ladrones a veces se disfrazan.";
     }
 
+    // Controla los clics en el botón "Continuar" de las tarjetas de diálogo
     public void BotonContinuarBase()
     {
         if (pasoActual == 0)
@@ -71,7 +87,7 @@ public class ControladorEscenario2 : MonoBehaviour
         }
         else
         {
-            // Pasamos a la pantalla de la lupa y apagamos todo lo demás
+            // Fin del diálogo: Pasamos a la pantalla de la lupa y mostramos las opciones globales
             tarjetaBase.SetActive(false);
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
@@ -79,18 +95,20 @@ public class ControladorEscenario2 : MonoBehaviour
         }
     }
 
-    // --- FUNCIONES DE DECISIÓN ---
+    // --- FUNCIONES DE DECISIÓN (JUEGO) ---
 
+    // El usuario se equivocó y seleccionó el correo real
     public void SeleccionarCorreoBueno()
     {
         OcultarTodo();
         tarjetaError.SetActive(true);
-        grupoOpciones.SetActive(true); // Encendemos opciones por si necesita ayuda
+        grupoOpciones.SetActive(true); // Dejamos las opciones encendidas por si quiere ayuda
 
         tituloTarjetaError.text = "¡¡Revisa los detalles!!";
         textoTarjetaError.text = "Ese es un correo oficial. Revisa el otro. Fíjate que usa '@gmail' y trata de asustarte con 'urgencias'.";
     }
 
+    // El usuario acertó y seleccionó el correo estafa
     public void SeleccionarCorreoMalo()
     {
         OcultarTodo();
@@ -101,17 +119,18 @@ public class ControladorEscenario2 : MonoBehaviour
         textoTarjetaCorrecto.text = "Los bancos reales nunca usan '@gmail' ni te envían amenazas urgentes. ¡Esquivaste una trampa!";
     }
 
+    // Cierra la tarjeta de error para seguir jugando
     public void BotonIntentarDeNuevo()
     {
         tarjetaError.SetActive(false);
         tarjetaAyuda.SetActive(false);
         grupoOpciones.SetActive(true);
-        pantallaLupa.SetActive(true);
+        pantallaLupa.SetActive(true); // Regresamos a la lupa
     }
 
-    // --- FUNCIONES AUXILIARES ---
+    // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
 
-    // Esta función la llama el ControladorMaestro
+    // Muestra la tarjeta de pistas
     public void MostrarAyuda()
     {
         OcultarTodo();
@@ -120,6 +139,15 @@ public class ControladorEscenario2 : MonoBehaviour
         textoTarjetaAyuda.text = "Uno de los correos quiere robar tus datos, analiza la dirección del usuario de cada uno.";
     }
 
+    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel y volver al Home
+    public void RegresarAlMenuPrincipal()
+    {
+        OcultarTodo();
+        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apaga la experiencia AR
+        if (navegacion != null) navegacion.MostrarMenuPrincipal(); // Muestra la interfaz de Inicio
+    }
+
+    // Apaga todas las tarjetas y paneles visuales para limpiar la pantalla
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);
@@ -131,7 +159,6 @@ public class ControladorEscenario2 : MonoBehaviour
         mailCardMalo.SetActive(false);
         mailCardBueno.SetActive(false);
 
-        // Apagamos el grupo de opciones por defecto
         if (grupoOpciones != null) grupoOpciones.SetActive(false);
     }
 }
