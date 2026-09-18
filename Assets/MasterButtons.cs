@@ -1,6 +1,6 @@
 /* ==============================================================================
  * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
- * SCRIPT: ControladorMaestro.cs
+ * SCRIPT: MasterButtons.cs
  * DESCRIPCIÓN: Es el "Cerebro Central" de la experiencia AR. Controla qué 
  *              escenario (Image Target) está activo, guarda el progreso global 
  *              del usuario y funciona como enrutador para los botones genéricos 
@@ -155,8 +155,6 @@ public class ControladorMaestro : MonoBehaviour
         escenarioActivo = numeroNivel;
 
         // SISTEMA ANTIRROBO DE PROGRESO:
-        // Solo guardamos si el nuevo nivel alcanzado es mayor al histórico.
-        // Así, si alguien va en el Nivel 6 y repite el 1, no pierde su progreso.
         int nivelHistorico = PlayerPrefs.GetInt("NivelGuardado", 1);
         if (numeroNivel > nivelHistorico)
         {
@@ -165,7 +163,21 @@ public class ControladorMaestro : MonoBehaviour
         }
 
         ActivarTargetsEscenario(numeroNivel);
-        if (pantallaInstruccion != null) pantallaInstruccion.SetActive(true);
+
+        // --- SOLUCIÓN DEL BUG DE SUPERPOSICIÓN ---
+        // Si el nivel es 0 (Menú Principal), apagamos la interfaz del escáner.
+        // Si es mayor a 0 (1 al 6), la encendemos.
+        if (pantallaInstruccion != null)
+        {
+            if (numeroNivel == 0)
+            {
+                pantallaInstruccion.SetActive(false);
+            }
+            else
+            {
+                pantallaInstruccion.SetActive(true);
+            }
+        }
     }
 
     // Apaga todas las cámaras/marcadores y solo enciende los del nivel actual
