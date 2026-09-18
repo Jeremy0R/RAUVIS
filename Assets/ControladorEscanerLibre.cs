@@ -12,14 +12,15 @@ using TMPro;
 public class ControladorEscanerLibre : MonoBehaviour
 {
     [Header("Interfaz Principal")]
-    public GameObject tarjetaInstrucciones; // La tarjeta blanca donde Botty explica qué hacer
-    public GameObject interfazEscaneo;      // El marco de "SCAN ME", láser y el botón rojo
+    public GameObject tarjetaInstrucciones; // Arrastra aquí tu Card_Scan
+    public GameObject escanerAnimado;       // Arrastra aquí tu Escaner_animado
+    public GameObject botonCamara;          // Arrastra aquí tu Button_Camara
 
     [Header("Retroalimentación (Botón Rojo)")]
-    public GameObject tarjetaAviso;         // Un pequeño panel para mensajes temporales
-    public TextMeshProUGUI textoAviso;
+    public GameObject tarjetaAviso;         // Arrastra tu nueva Tarjeta_Aviso
+    public TextMeshProUGUI textoAviso;      // Arrastra el texto dentro de la Tarjeta_Aviso
 
-    // OnEnable se ejecuta CADA VEZ que esta vista se enciende desde la barra de navegación
+    // Se ejecuta automáticamente cada vez que el usuario abre la pestaña Escáner
     void OnEnable()
     {
         ReiniciarEscaner();
@@ -28,18 +29,20 @@ public class ControladorEscanerLibre : MonoBehaviour
     public void ReiniciarEscaner()
     {
         tarjetaInstrucciones.SetActive(true);
-        interfazEscaneo.SetActive(false);
+        escanerAnimado.SetActive(false);
+        botonCamara.SetActive(false);
         if (tarjetaAviso != null) tarjetaAviso.SetActive(false);
     }
 
-    // Se ejecuta al presionar "CONTINUAR" en la tarjeta de Botty
+    // Vincula esta función al botón CONTINUAR de tu tarjeta
     public void ActivarModoEscaneo()
     {
         tarjetaInstrucciones.SetActive(false);
-        interfazEscaneo.SetActive(true);
+        escanerAnimado.SetActive(true);
+        botonCamara.SetActive(true);
     }
 
-    // Se ejecuta al presionar el botón rojo de la cámara
+    // Vincula esta función al botón rojo (Button_Camara)
     public void BotonRojoPresionado()
     {
         if (tarjetaAviso != null)
@@ -47,7 +50,7 @@ public class ControladorEscanerLibre : MonoBehaviour
             tarjetaAviso.SetActive(true);
             textoAviso.text = "¡Estás en el Modo Práctica!\nVe a la pestaña LECCIONES para iniciar un escenario oficial.";
 
-            // Invoca la función para ocultar el aviso después de 3.5 segundos
+            // Cancela cualquier temporizador previo y oculta el aviso en 3.5 segundos
             CancelInvoke("OcultarAviso");
             Invoke("OcultarAviso", 3.5f);
         }
