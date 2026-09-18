@@ -1,17 +1,28 @@
+/* ==============================================================================
+ * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
+ * SCRIPT: ControladorBienvenida.cs
+ * DESCRIPCIÓN: Gestiona la pantalla de inicio (Splash Screen) y el tutorial 
+ *              de Onboarding con el asistente Botty. Utiliza Corrutinas para 
+ *              transiciones suaves (Fade In/Out) manejando el componente Alpha 
+ *              de los Canvas Groups.
+ * ============================================================================== */
+
 using UnityEngine;
 using TMPro;
 using System.Collections;
 
 public class ControladorBienvenida : MonoBehaviour
 {
+    // --- VARIABLES DE FONDOS Y TRANSICIONES ---
     [Header("Fondos Principales")]
     public GameObject panelSplashScreen;
     public GameObject panelInstrucciones;
 
-    // Referencias a los Canvas Group para las transiciones
+    // Componentes que permiten modificar la transparencia (Alpha) de todo un panel
     private CanvasGroup splashCanvasGroup;
     private CanvasGroup instruccionesCanvasGroup;
 
+    // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjeta 1: Base")]
     public GameObject tarjetaBase;
     public TextMeshProUGUI tituloBase;
@@ -29,20 +40,21 @@ public class ControladorBienvenida : MonoBehaviour
     public GameObject animacionCamara;
     public GameObject iconoAyuda;
 
-    [Header("Conexión con el Maestro")]
+    [Header("Conexiones Globales")]
     public ControladorMaestro maestro;
-    public ControladorNavegacion navegacion;
+    public ControladorNavegacion navegacion; // Le cederá el control al terminar
 
+    // Control de flujo
     private int pasoActual = 0;
-    private bool enTransicion = false; // Para evitar que el usuario toque botones mientras se anima
+    private bool enTransicion = false; // Candado: evita clics mientras hay una animación en curso
 
     void Start()
     {
-        // Obtenemos los componentes Canvas Group que agregamos en el Inspector
+        // Vinculamos los CanvasGroup para manipular la opacidad
         splashCanvasGroup = panelSplashScreen.GetComponent<CanvasGroup>();
         instruccionesCanvasGroup = panelInstrucciones.GetComponent<CanvasGroup>();
 
-        // Estado inicial: Splash totalmente visible, Instrucciones invisibles y apagadas
+        // Estado inicial rígido: El Splash azul es visible, el panel verde es invisible
         if (panelInstrucciones != null)
         {
             panelInstrucciones.SetActive(false);
@@ -55,76 +67,63 @@ public class ControladorBienvenida : MonoBehaviour
             splashCanvasGroup.alpha = 1f;
         }
 
+        // Preparamos el paso 0 de las tarjetas y lanzamos el temporizador del Splash
         MostrarPaso(0);
         StartCoroutine(RutinaSplashScreen());
     }
 
+    // ==============================================================================
+    // CORRUTINAS (ANIMACIONES Y TIEMPOS)
+    // ==============================================================================
+
+    // Mantiene el logotipo en pantalla por 4 segundos
     private IEnumerator RutinaSplashScreen()
     {
-        // Esperamos 4 segundos con el Splash intacto
         yield return new WaitForSeconds(4f);
 
-        // Ejecutamos la transición suave hacia las instrucciones
+        // Espera a que termine la animación de difuminado antes de continuar
         yield return StartCoroutine(TransicionSplashAInstrucciones());
 
+        // Inicia el diálogo de Botty (Paso 1)
         AvanzarPaso();
     }
 
+    // Realiza un "Crossfade" (Cruce mágico): El azul desaparece mientras el verde aparece
     private IEnumerator TransicionSplashAInstrucciones()
     {
         enTransicion = true;
 
-        // Encendemos el panel verde pero invisible
-        panelInstrucciones.SetActive(true);
+        panelInstrucciones.SetActive(true); // Encendemos el panel, pero sigue invisible (Alpha 0)
 
-        float duracion = 1f; // La transición durará 1 segundo
+        float duracion = 1f;
         float tiempo = 0f;
 
+        // Bucle que se ejecuta frame por frame hasta que pasa 1 segundo
         while (tiempo < duracion)
         {
             tiempo += Time.deltaTime;
             float progreso = tiempo / duracion;
 
-            // El azul desaparece (de 1 a 0), el verde aparece (de 0 a 1)
+            // Mathf.Lerp calcula valores intermedios. (ej. de 1 a 0 progresivamente)
             splashCanvasGroup.alpha = Mathf.Lerp(1f, 0f, progreso);
             instruccionesCanvasGroup.alpha = Mathf.Lerp(0f, 1f, progreso);
 
-            yield return null;
+            yield return null; // Espera al siguiente frame
         }
 
-        // Aseguramos valores finales y apagamos el azul por completo
+        // Aseguramos que los valores queden exactos al terminar el bucle
         splashCanvasGroup.alpha = 0f;
         instruccionesCanvasGroup.alpha = 1f;
-        panelSplashScreen.SetActive(false);
+        panelSplashScreen.SetActive(false); // Apagamos el objeto azul para ahorrar memoria
 
         enTransicion = false;
     }
 
-    public void AvanzarPaso()
-    {
-        if (enTransicion) return; // Candado de seguridad
-
-        pasoActual++;
-        if (pasoActual > 6)
-        {
-            StartCoroutine(TransicionSalidaAR());
-        }
-        else
-        {
-            MostrarPaso(pasoActual);
-        }
-    }
-
-    public void OmitirBienvenida()
-    {
-        if (enTransicion) return;
-        StartCoroutine(TransicionSalidaAR());
-    }
-
+    // Desvanece el panel de instrucciones para descubrir la interfaz del juego
     private IEnumerator TransicionSalidaAR()
     {
         enTransicion = true;
-        float duracion = 0.5f; // Transición rápida de medio segundo para entrar al juego
+        float duracion = 0.5f;
         float tiempo = 0f;
 
         while (tiempo < duracion)
@@ -137,8 +136,37 @@ public class ControladorBienvenida : MonoBehaviour
         FinalizarBienvenida();
     }
 
+    // ==============================================================================
+    // CONTROL DEL TUTORIAL (MÁQUINA DE ESTADOS)
+    // ==============================================================================
+
+    // Avanza un paso en la lista de diálogos. Se invoca desde ControladorMaestro (BotonBasePresionado)
+    public void AvanzarPaso()
+    {
+        if (enTransicion) return; // Si la pantalla se está moviendo, ignoramos el clic
+
+        pasoActual++;
+        if (pasoActual > 6)
+        {
+            StartCoroutine(TransicionSalidaAR()); // Fin del tutorial
+        }
+        else
+        {
+            MostrarPaso(pasoActual);
+        }
+    }
+
+    // Permite al usuario saltarse el tutorial con el botón "Omitir"
+    public void OmitirBienvenida()
+    {
+        if (enTransicion) return;
+        StartCoroutine(TransicionSalidaAR());
+    }
+
+    // Configura qué tarjeta, texto e imagen de apoyo se muestra en cada momento
     private void MostrarPaso(int paso)
     {
+        // Limpiamos la pantalla apagando todo
         tarjetaBase.SetActive(false);
         tarjetaExplicacion.SetActive(false);
         animacionAgarre.SetActive(false);
@@ -148,6 +176,7 @@ public class ControladorBienvenida : MonoBehaviour
         switch (paso)
         {
             case 0:
+                // Estado inactivo durante el Splash Screen
                 break;
             case 1:
                 tarjetaBase.SetActive(true);
@@ -191,10 +220,12 @@ public class ControladorBienvenida : MonoBehaviour
         }
     }
 
+    // Última acción: Apaga el controlador por completo y enciende el menú principal
     private void FinalizarBienvenida()
     {
         gameObject.SetActive(false);
         if (panelInstrucciones != null) panelInstrucciones.SetActive(false);
+
         navegacion.MostrarMenuPrincipal();
     }
 }
