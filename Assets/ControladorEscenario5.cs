@@ -163,7 +163,7 @@ public class ControladorEscenario5 : MonoBehaviour
 
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
-        textoTarjetaAyuda.text = "¿Te parece extraño haber ganado un premio sin haberte registrado? Selecciona el botón con la acción que consideres correcta para este caso.";
+        textoTarjetaAyuda.text = "Escanea la imagen y selecciona el botón con la acción que consideres correcta para este caso.";
     }
 
     // Restaura la interfaz de AR si el objetivo sigue visible
