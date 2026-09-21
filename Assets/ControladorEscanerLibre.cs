@@ -27,7 +27,8 @@ public class ControladorEscanerLibre : MonoBehaviour
 
     [Header("Retroalimentación (Botón Rojo)")]
     public GameObject tarjetaAviso;
-    public TextMeshProUGUI textoAviso;
+    public TextMeshProUGUI tituloAviso;     // NUEVO: Para el título
+    public TextMeshProUGUI textoAviso;      // Para el contenido
 
     void OnEnable()
     {
@@ -57,15 +58,17 @@ public class ControladorEscanerLibre : MonoBehaviour
     {
         if (tarjetaAviso != null)
         {
-            // Apagamos la interfaz del escáner para evitar que se encimen
             escanerAnimado.SetActive(false);
             botonCamara.SetActive(false);
 
             tarjetaAviso.SetActive(true);
-            textoAviso.text = "¡Estás en el Modo Práctica!\nVe a la pestaña LECCIONES para iniciar un escenario oficial.";
+
+            // Inyectamos título y contenido por separado
+            if (tituloAviso != null) tituloAviso.text = "¡MODO PRÁCTICA!";
+            if (textoAviso != null) textoAviso.text = "Ve a la pestaña LECCIONES para iniciar un escenario oficial.";
 
             CancelInvoke("OcultarAviso");
-            Invoke("OcultarAviso", 4.5f);
+            Invoke("OcultarAviso", 5.5f);
         }
     }
 
@@ -73,7 +76,6 @@ public class ControladorEscanerLibre : MonoBehaviour
     {
         if (tarjetaAviso != null) tarjetaAviso.SetActive(false);
 
-        // Devolvemos la interfaz del escáner a la pantalla
         escanerAnimado.SetActive(true);
         botonCamara.SetActive(true);
     }
