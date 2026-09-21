@@ -111,6 +111,12 @@ public class ControladorAjustes : MonoBehaviour
         if (navegacion != null)
         {
             navegacion.ReiniciarProgreso();
+
+            // NUEVO: Apagamos la barra de navegación para evitar que el usuario se escape
+            if (navegacion.barraNavegacion != null)
+            {
+                navegacion.barraNavegacion.SetActive(false);
+            }
         }
 
         ApagarTodosLosPaneles();
@@ -124,12 +130,14 @@ public class ControladorAjustes : MonoBehaviour
     // Finaliza el proceso y vuelve a Inicio
     public void BotonHechoPresionado()
     {
-        // ESTA LÍNEA NUEVA resetea la vista a los 3 botones internamente ANTES de salir
+        // Reseteamos el panel de ajustes de fondo para la próxima vez que entre
         IrAMenuAjustes();
 
         if (navegacion != null)
         {
-            navegacion.IrAInicio();
+            // NUEVO: Usamos MostrarMenuPrincipal en lugar de IrAInicio. 
+            // Esta función enciende la barra de navegación automáticamente y luego te lleva al Inicio.
+            navegacion.MostrarMenuPrincipal();
         }
     }
 }
