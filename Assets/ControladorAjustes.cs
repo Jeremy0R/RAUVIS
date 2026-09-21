@@ -124,6 +124,9 @@ public class ControladorAjustes : MonoBehaviour
     // Finaliza el proceso y vuelve a Inicio
     public void BotonHechoPresionado()
     {
+        // ESTA LÍNEA NUEVA resetea la vista a los 3 botones internamente ANTES de salir
+        IrAMenuAjustes();
+
         if (navegacion != null)
         {
             navegacion.IrAInicio();
