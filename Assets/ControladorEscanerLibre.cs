@@ -18,9 +18,9 @@ public class ControladorEscanerLibre : MonoBehaviour
 {
     [Header("Interfaz Principal")]
     public GameObject tarjetaInstrucciones;
-    public TextMeshProUGUI tituloInstrucciones;  // NUEVO
-    public TextMeshProUGUI textoInstrucciones;   // NUEVO
-    public TextMeshProUGUI textoBotonInstrucciones; // NUEVO
+    public TextMeshProUGUI tituloInstrucciones;
+    public TextMeshProUGUI textoInstrucciones;
+    public TextMeshProUGUI textoBotonInstrucciones;
 
     public GameObject escanerAnimado;
     public GameObject botonCamara;
@@ -29,7 +29,6 @@ public class ControladorEscanerLibre : MonoBehaviour
     public GameObject tarjetaAviso;
     public TextMeshProUGUI textoAviso;
 
-    // Se ejecuta automáticamente cada vez que el usuario abre la pestaña Escáner
     void OnEnable()
     {
         ReiniciarEscaner();
@@ -37,19 +36,16 @@ public class ControladorEscanerLibre : MonoBehaviour
 
     public void ReiniciarEscaner()
     {
-        // 1. Asignamos los textos de la tarjeta de Botty
         if (tituloInstrucciones != null) tituloInstrucciones.text = "ESTE ES EL ESCÁNER";
         if (textoInstrucciones != null) textoInstrucciones.text = "Asegúrate de tener buena luz. Apunta la cámara al código QR y toca CONTINUAR cuando estés listo.";
         if (textoBotonInstrucciones != null) textoBotonInstrucciones.text = "CONTINUAR";
 
-        // 2. Mostramos la tarjeta y escondemos la cámara temporalmente
         tarjetaInstrucciones.SetActive(true);
         escanerAnimado.SetActive(false);
         botonCamara.SetActive(false);
         if (tarjetaAviso != null) tarjetaAviso.SetActive(false);
     }
 
-    // Vincula esta función al botón CONTINUAR de tu tarjeta
     public void ActivarModoEscaneo()
     {
         tarjetaInstrucciones.SetActive(false);
@@ -57,21 +53,28 @@ public class ControladorEscanerLibre : MonoBehaviour
         botonCamara.SetActive(true);
     }
 
-    // Vincula esta función al botón rojo (Button_Camara)
     public void BotonRojoPresionado()
     {
         if (tarjetaAviso != null)
         {
+            // Apagamos la interfaz del escáner para evitar que se encimen
+            escanerAnimado.SetActive(false);
+            botonCamara.SetActive(false);
+
             tarjetaAviso.SetActive(true);
             textoAviso.text = "¡Estás en el Modo Práctica!\nVe a la pestaña LECCIONES para iniciar un escenario oficial.";
 
             CancelInvoke("OcultarAviso");
-            Invoke("OcultarAviso", 3.5f);
+            Invoke("OcultarAviso", 4.5f);
         }
     }
 
     private void OcultarAviso()
     {
         if (tarjetaAviso != null) tarjetaAviso.SetActive(false);
+
+        // Devolvemos la interfaz del escáner a la pantalla
+        escanerAnimado.SetActive(true);
+        botonCamara.SetActive(true);
     }
 }
