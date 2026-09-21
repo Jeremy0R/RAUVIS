@@ -1,8 +1,22 @@
+/* ==============================================================================
+ * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
+ * SCRIPT: ControladorEscenario5.cs
+ * DESCRIPCIÓN: Gestiona el Escenario 5 (Links Falsos). Controla la interacción 
+ *              donde el usuario usa una "lupa" para revelar un enlace oculto y 
+ *              debe decidir si visitar o bloquear el sitio web sospechoso.
+ * ============================================================================== */
+
 using UnityEngine;
 using TMPro;
 
 public class ControladorEscenario5 : MonoBehaviour
 {
+    // --- CONEXIONES GLOBALES ---
+    [Header("Conexiones del Sistema")]
+    public ControladorNavegacion navegacion; // Para regresar al menú Inicio
+    public ControladorMaestro maestro;       // Para apagar la AR al salir
+
+    // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
     public GameObject tarjetaBase;
     public TextMeshProUGUI tituloTarjetaBase;
@@ -13,10 +27,10 @@ public class ControladorEscenario5 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaExplicacion;
 
     [Header("Interfaz de Interacción")]
-    public GameObject grupoOpciones; // Botones Back y Ayuda (los morados)
-    public GameObject pantallaLupa; // El marco de la lupa (si aplica)
-    public GameObject cardLinkSospechoso; // La tarjeta que revela el link falso
-    public GameObject grupoBotonesAccion; // Botones "Visitar Sitio" y "Bloquear"
+    public GameObject grupoOpciones; // Botones Atrás (<) y Ayuda (?)
+    public GameObject pantallaLupa; // Marco visual de la lupa
+    public GameObject cardLinkSospechoso; // Tarjeta que revela el link real
+    public GameObject grupoBotonesAccion; // Botones AR: "Visitar Sitio" y "Bloquear"
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -33,15 +47,18 @@ public class ControladorEscenario5 : MonoBehaviour
     public TextMeshProUGUI tituloTarjetaAyuda;
     public TextMeshProUGUI textoTarjetaAyuda;
 
+    // Sensores de estado
     private int pasoActual = 0;
-    private bool targetDetectado = false;
+    private bool targetDetectado = false; // Rastrea si la imagen AR está enfocada
 
     void Start()
     {
         OcultarTodo();
     }
 
-    // --- FUNCIONES DE FLUJO ---
+    // --- FUNCIONES DE FLUJO (INTRODUCCIÓN) ---
+
+    // Inicializa el nivel y la primera instrucción
     public void IniciarEscenario()
     {
         pasoActual = 0;
@@ -53,6 +70,7 @@ public class ControladorEscenario5 : MonoBehaviour
         textoTarjetaBase.text = "A veces, un correo te promete un premio, pero te lleva a una página falsa y peligrosa.";
     }
 
+    // Navegación por las tarjetas de introducción
     public void BotonContinuarBase()
     {
         if (pasoActual == 0)
@@ -67,7 +85,7 @@ public class ControladorEscenario5 : MonoBehaviour
         }
         else
         {
-            // Apagamos explicación y prendemos los botones morados y la interfaz de la lupa
+            // Apagamos explicación y encendemos la interfaz de la lupa esperando el target
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
             if (pantallaLupa != null) pantallaLupa.SetActive(true);
@@ -75,11 +93,12 @@ public class ControladorEscenario5 : MonoBehaviour
         }
     }
 
-    // --- FUNCIONES DE ESCANEO (VUFORIA target_E5) ---
-  
+    // --- FUNCIONES DE ESCANEO (VUFORIA) ---
+
+    // Se invoca cuando Vuforia detecta la imagen (Target_E5)
     public void ActivarLinkYBotones()
     {
-        // EL CANDADO: Solo se activa si ya pasamos la explicación Y las tarjetas están apagadas
+        // Candado: Evita que los botones AR aparezcan si el usuario está leyendo una tarjeta
         if (pasoActual > 0 && !tarjetaAyuda.activeSelf && !tarjetaError.activeSelf && !tarjetaCorrecto.activeSelf)
         {
             targetDetectado = true;
@@ -87,30 +106,32 @@ public class ControladorEscenario5 : MonoBehaviour
             grupoBotonesAccion.SetActive(true);
             grupoOpciones.SetActive(true);
 
-            if (pantallaLupa != null) pantallaLupa.SetActive(false);
+            if (pantallaLupa != null) pantallaLupa.SetActive(false); // Oculta el marco de la lupa
         }
         else if (pasoActual > 0)
         {
-            // Si hay una tarjeta abierta, solo registramos que se detectó en el fondo, pero no encendemos nada visual
-            targetDetectado = true;
+            targetDetectado = true; // Solo registramos que lo vio de fondo
         }
     }
 
+    // Se invoca cuando Vuforia pierde la imagen
     public void DesactivarLinkYBotones()
     {
         targetDetectado = false;
         cardLinkSospechoso.SetActive(false);
         grupoBotonesAccion.SetActive(false);
 
-        // NUEVO: Volvemos a encender la lupa si se pierde el target de vista
+        // Volvemos a encender el marco de la lupa si no hay retroalimentación activa
         if (pasoActual > 0 && pantallaLupa != null && !tarjetaCorrecto.activeSelf && !tarjetaError.activeSelf)
         {
             pantallaLupa.SetActive(true);
         }
     }
 
-    // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN ---
-    public void BotonVisitarSitio() // Acción Incorrecta
+    // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN (JUEGO) ---
+
+    // Acción Incorrecta: Entró al sitio falso
+    public void BotonVisitarSitio()
     {
         OcultarElementosInteraccion();
 
@@ -120,7 +141,8 @@ public class ControladorEscenario5 : MonoBehaviour
         if (textoBotonError != null) textoBotonError.text = "INTENTAR DE NUEVO";
     }
 
-    public void BotonBloquearSitio() // Acción Correcta
+    // Acción Correcta: Bloqueó la URL sospechosa
+    public void BotonBloquearSitio()
     {
         OcultarElementosInteraccion();
 
@@ -130,30 +152,31 @@ public class ControladorEscenario5 : MonoBehaviour
         if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
     }
 
-    // --- FUNCIONES AUXILIARES ---
+    // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
+
+    // Muestra la pista y esconde la AR temporalmente
     public void MostrarAyuda()
     {
         if (cardLinkSospechoso != null) cardLinkSospechoso.SetActive(false);
         if (grupoBotonesAccion != null) grupoBotonesAccion.SetActive(false);
-        if (pantallaLupa != null) pantallaLupa.SetActive(false); // NUEVO: Apaga la lupa
+        if (pantallaLupa != null) pantallaLupa.SetActive(false);
 
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
-        textoTarjetaAyuda.text = "¿Te parece extraño haber ganado un premio sin haberte registrado? Selecciona el botón con la acción que consideres correcta para este caso.";
+        textoTarjetaAyuda.text = "Escanea la imagen y selecciona el botón con la acción que consideres correcta para este caso.";
     }
 
+    // Restaura la interfaz de AR si el objetivo sigue visible
     public void OcultarAyuda()
     {
         tarjetaAyuda.SetActive(false);
         if (targetDetectado)
         {
-            // Si estaba viendo el link, se lo devolvemos
             cardLinkSospechoso.SetActive(true);
             grupoBotonesAccion.SetActive(true);
         }
         else if (pasoActual > 0)
         {
-            // Si NO estaba viendo el link, le devolvemos la lupa para que siga buscando
             if (pantallaLupa != null) pantallaLupa.SetActive(true);
         }
     }
@@ -170,6 +193,15 @@ public class ControladorEscenario5 : MonoBehaviour
         }
     }
 
+    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel
+    public void RegresarAlMenuPrincipal()
+    {
+        OcultarTodo();
+        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apaga AR
+        if (navegacion != null) navegacion.MostrarMenuPrincipal(); // Vuelve al Inicio
+    }
+
+    // Oculta los elementos AR para limpiar la pantalla
     private void OcultarElementosInteraccion()
     {
         cardLinkSospechoso.SetActive(false);
@@ -177,6 +209,7 @@ public class ControladorEscenario5 : MonoBehaviour
         grupoOpciones.SetActive(false);
     }
 
+    // Apaga todo
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);

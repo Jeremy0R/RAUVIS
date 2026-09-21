@@ -1,8 +1,22 @@
+/* ==============================================================================
+ * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
+ * SCRIPT: ControladorEscenario4.cs
+ * DESCRIPCIÓN: Gestiona el Escenario 4 (Ingeniería Social / Favores Falsos).
+ *              Controla el estado de detección del objetivo AR y despliega
+ *              botones de acción (Enviar Dinero / Llamar) condicionados a la cámara.
+ * ============================================================================== */
+
 using UnityEngine;
 using TMPro;
 
 public class ControladorEscenario4 : MonoBehaviour
 {
+    // --- CONEXIONES GLOBALES ---
+    [Header("Conexiones del Sistema")]
+    public ControladorNavegacion navegacion; // NUEVO: Permite regresar al Hub principal
+    public ControladorMaestro maestro;       // NUEVO: Controla el estado general y el AR
+
+    // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
     public GameObject tarjetaBase;
     public TextMeshProUGUI tituloTarjetaBase;
@@ -13,15 +27,16 @@ public class ControladorEscenario4 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaExplicacion;
 
     [Header("Interfaz de Interacción")]
-    public GameObject grupoOpciones; // Botones Back y Ayuda
-    public GameObject pantallaCorreoE4; // La imagen del correo
-    public GameObject grupoBotonesAccion; // Botones Enviar y Llamar
+    public GameObject grupoOpciones; // Botones Atrás (<) y Ayuda (?)
+    public GameObject pantallaCorreoE4; // Interfaz del correo falso
+    public GameObject grupoBotonesAccion; // Botones flotantes: Enviar y Llamar
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
     public TextMeshProUGUI tituloTarjetaError;
     public TextMeshProUGUI textoTarjetaError;
     public TextMeshProUGUI textoBotonError;
+
     public GameObject tarjetaCorrecto;
     public TextMeshProUGUI tituloTarjetaCorrecto;
     public TextMeshProUGUI textoTarjetaCorrecto;
@@ -31,15 +46,18 @@ public class ControladorEscenario4 : MonoBehaviour
     public TextMeshProUGUI tituloTarjetaAyuda;
     public TextMeshProUGUI textoTarjetaAyuda;
 
+    // Sensores de estado del nivel
     private int pasoActual = 0;
-    private bool targetDetectado = false; // NUEVO: Sensor para saber si Vuforia está viendo la imagen
+    private bool targetDetectado = false; // Rastrea si Vuforia está viendo la imagen activa
 
     void Start()
     {
         OcultarTodo();
     }
 
-    // --- FUNCIONES DE FLUJO ---
+    // --- FUNCIONES DE FLUJO (INTRODUCCIÓN) ---
+
+    // Inicia el escenario y reinicia los sensores
     public void IniciarEscenario()
     {
         pasoActual = 0;
@@ -51,6 +69,7 @@ public class ControladorEscenario4 : MonoBehaviour
         textoTarjetaBase.text = "Los estafadores juegan con tus emociones. Fingen ser un amigo o un familiar con una emergencia.";
     }
 
+    // Controla la transición de las tarjetas iniciales
     public void BotonContinuarBase()
     {
         if (pasoActual == 0)
@@ -65,38 +84,43 @@ public class ControladorEscenario4 : MonoBehaviour
         }
         else
         {
-            // Fase de Escaneo: Apagamos la explicación y ENCENDEMOS los botones morados
+            // Fase de Escaneo: Apagamos la explicación y habilitamos los menús globales
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
             pasoActual++;
         }
     }
 
-    // --- FUNCIONES DE ESCANEO (VUFORIA T_e4) ---
+    // --- FUNCIONES DE ESCANEO (VUFORIA) ---
+
+    // Llamado por Vuforia cuando detecta la imagen (Image Target)
     public void ActivarCorreoYBotones()
     {
         if (pasoActual > 0)
         {
-            targetDetectado = true; // Avisamos que la cámara ya vio el objetivo
+            targetDetectado = true; // El sensor avisa que la cámara ve el objetivo
             pantallaCorreoE4.SetActive(true);
             grupoBotonesAccion.SetActive(true);
             grupoOpciones.SetActive(true);
         }
     }
 
+    // Llamado por Vuforia cuando pierde de vista la imagen
     public void DesactivarCorreoYBotones()
     {
-        targetDetectado = false; // Avisamos que se perdió el objetivo
+        targetDetectado = false; // Se perdió el objetivo
         pantallaCorreoE4.SetActive(false);
         grupoBotonesAccion.SetActive(false);
     }
 
-    // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN ---
+    // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN (JUEGO) ---
+
+    // Acción Incorrecta: El usuario cayó en la estafa
     public void BotonEnviarDinero()
     {
         pantallaCorreoE4.SetActive(false);
         grupoBotonesAccion.SetActive(false);
-        grupoOpciones.SetActive(false); // Apagamos los morados para limpiar la pantalla
+        grupoOpciones.SetActive(false); // Limpiamos la pantalla
 
         tarjetaError.SetActive(true);
         tituloTarjetaError.text = "¡CUIDADO!";
@@ -104,11 +128,12 @@ public class ControladorEscenario4 : MonoBehaviour
         if (textoBotonError != null) textoBotonError.text = "INTENTAR DE NUEVO";
     }
 
+    // Acción Correcta: El usuario verificó la identidad
     public void BotonRealizarLlamada()
     {
         pantallaCorreoE4.SetActive(false);
         grupoBotonesAccion.SetActive(false);
-        grupoOpciones.SetActive(false); // Apagamos los morados
+        grupoOpciones.SetActive(false);
 
         tarjetaCorrecto.SetActive(true);
         tituloTarjetaCorrecto.text = "¡MUY INTELIGENTE!";
@@ -116,10 +141,11 @@ public class ControladorEscenario4 : MonoBehaviour
         if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
     }
 
-    // --- FUNCIONES AUXILIARES ---
+    // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
+
+    // Muestra la tarjeta de pista y apaga temporalmente el correo AR para evitar encimados
     public void MostrarAyuda()
     {
-        // Limpiamos el fondo apagando el correo temporalmente (evita que se empalmen)
         if (pantallaCorreoE4 != null) pantallaCorreoE4.SetActive(false);
         if (grupoBotonesAccion != null) grupoBotonesAccion.SetActive(false);
 
@@ -128,11 +154,11 @@ public class ControladorEscenario4 : MonoBehaviour
         textoTarjetaAyuda.text = "Escanea la imagen y selecciona el botón con la acción que consideres correcta para este caso.";
     }
 
+    // Oculta la pista y devuelve el correo AR SOLO si la cámara sigue viendo la imagen
     public void OcultarAyuda()
     {
         tarjetaAyuda.SetActive(false);
 
-        // Magia aquí: Solo devolvemos el correo a la pantalla SI la cámara sigue viendo el marcador
         if (targetDetectado)
         {
             pantallaCorreoE4.SetActive(true);
@@ -140,10 +166,11 @@ public class ControladorEscenario4 : MonoBehaviour
         }
     }
 
+    // Reinicia el escenario tras un error, devolviendo el correo AR si está en cámara
     public void RestaurarDespuesDeError()
     {
         tarjetaError.SetActive(false);
-        grupoOpciones.SetActive(true); // Devolvemos los botones morados
+        grupoOpciones.SetActive(true);
 
         if (targetDetectado)
         {
@@ -152,6 +179,15 @@ public class ControladorEscenario4 : MonoBehaviour
         }
     }
 
+    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel
+    public void RegresarAlMenuPrincipal()
+    {
+        OcultarTodo();
+        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apaga AR
+        if (navegacion != null) navegacion.MostrarMenuPrincipal(); // Vuelve a Inicio
+    }
+
+    // Limpia la pantalla apagando todas las tarjetas
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);
