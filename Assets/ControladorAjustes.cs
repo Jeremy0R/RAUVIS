@@ -66,7 +66,10 @@ public class ControladorAjustes : MonoBehaviour
 
         if (tituloSonido != null) tituloSonido.text = "Narraciones del robot";
         if (contenidoSonido != null) contenidoSonido.text = "El robot leerá en voz alta las instrucciones y textos de la app.";
-        if (textoBotonSonido != null) textoBotonSonido.text = "EN DESARROLLO";
+
+        // Revisamos cómo está configurado actualmente para poner el texto correcto
+        bool activado = PlayerPrefs.GetInt("NarracionActivada", 1) == 1;
+        if (textoBotonSonido != null) textoBotonSonido.text = activado ? "DESACTIVAR" : "ACTIVAR";
     }
 
     public void IrAAcercaDe()
@@ -99,10 +102,15 @@ public class ControladorAjustes : MonoBehaviour
 
     public void BotonActivarDesactivarSonido()
     {
-        if (textoBotonSonido != null)
-        {
-            textoBotonSonido.text = "EN DESARROLLO";
-        }
+        // Leemos el estado actual
+        bool activado = PlayerPrefs.GetInt("NarracionActivada", 1) == 1;
+
+        // Lo invertimos (Si era 1 lo pasamos a 0, y viceversa)
+        PlayerPrefs.SetInt("NarracionActivada", activado ? 0 : 1);
+        PlayerPrefs.Save();
+
+        // Actualizamos el botón visualmente
+        if (textoBotonSonido != null) textoBotonSonido.text = !activado ? "DESACTIVAR" : "ACTIVAR";
     }
 
     // Reinicia el juego y muestra la tarjeta final
