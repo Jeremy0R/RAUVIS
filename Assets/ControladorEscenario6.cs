@@ -2,8 +2,8 @@
  * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
  * SCRIPT: ControladorEscenario6.cs
  * DESCRIPCIÓN: Gestiona el 6to y último Escenario (Cadenas de Correos). 
- *              Incluye la lógica de decisión final y la pantalla de felicitación 
- *              que concluye el flujo de aprendizaje de la aplicación.
+ *              Incluye la lógica de decisión final, la pantalla de felicitación 
+ *              y la integración completa de los AUDIOS de cierre.
  * ============================================================================== */
 
 using UnityEngine;
@@ -13,8 +13,17 @@ public class ControladorEscenario6 : MonoBehaviour
 {
     // --- CONEXIONES GLOBALES ---
     [Header("Conexiones del Sistema")]
-    public ControladorNavegacion navegacion; // Para volver al inicio al terminar o cancelar
-    public ControladorMaestro maestro;       // Para apagar la AR
+    public ControladorNavegacion navegacion;
+    public ControladorMaestro maestro;
+
+    [Header("Conexión de Audio")]
+    public ControladorAudio gestorAudio; // NUEVO: Cerebro de audios
+    public AudioClip audioBase;
+    public AudioClip audioExplicacion;
+    public AudioClip audioError;
+    public AudioClip audioCorrecto;
+    public AudioClip audioAyuda;
+    public AudioClip audioFelicitacion; // NUEVO: Audio exclusivo para el final del juego
 
     // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
@@ -27,9 +36,9 @@ public class ControladorEscenario6 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaExplicacion;
 
     [Header("Interfaz de Interacción")]
-    public GameObject grupoOpciones; // Botones globales: Atrás (<) y Ayuda (?)
-    public GameObject pantallaCorreoE6; // El correo falso visualizado
-    public GameObject grupoBotonesAccion; // Botones AR: "Reenviar" y "Borrar"
+    public GameObject grupoOpciones;
+    public GameObject pantallaCorreoE6;
+    public GameObject grupoBotonesAccion;
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -47,7 +56,7 @@ public class ControladorEscenario6 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaAyuda;
 
     [Header("Cierre del Juego")]
-    public GameObject tarjetaFelicitacion; // Pantalla final tras completar los 6 niveles
+    public GameObject tarjetaFelicitacion;
     public TextMeshProUGUI tituloTarjetaFelicitacion;
     public TextMeshProUGUI textoTarjetaFelicitacion;
 
@@ -70,6 +79,9 @@ public class ControladorEscenario6 : MonoBehaviour
         tarjetaBase.SetActive(true);
         tituloTarjetaBase.text = "LAS CADENAS DE MENTIRAS";
         textoTarjetaBase.text = "Algunos correos prometen milagros si los reenvías a 10 amigos. ¡Son engañosos para saturar tu bandeja!";
+
+        // NUEVO: Reproducimos el audio base
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioBase);
     }
 
     public void BotonContinuarBase()
@@ -82,11 +94,16 @@ public class ControladorEscenario6 : MonoBehaviour
             tituloTarjetaExplicacion.text = "ROMPE LA CADENA";
             textoTarjetaExplicacion.text = "Este correo pide que lo reenvíes. ¿Qué debes hacer?";
 
+            // NUEVO: Reproducimos la instrucción
+            if (gestorAudio != null) gestorAudio.ReproducirVoz(audioExplicacion);
+
             pasoActual++;
         }
         else
         {
-            // Apagamos explicación y habilitamos opciones globales
+            // NUEVO: Callamos a Botty al entrar a la cámara
+            if (gestorAudio != null) gestorAudio.DetenerVoz();
+
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
             pasoActual++;
@@ -96,7 +113,6 @@ public class ControladorEscenario6 : MonoBehaviour
     // --- FUNCIONES DE ESCANEO (VUFORIA) ---
     public void ActivarCorreoYBotones()
     {
-        // Candado anti-parpadeo: Evita encender cosas si el usuario está viendo retroalimentación o el final
         if (pasoActual > 0 && !tarjetaAyuda.activeSelf && !tarjetaError.activeSelf && !tarjetaCorrecto.activeSelf && !tarjetaFelicitacion.activeSelf)
         {
             targetDetectado = true;
@@ -106,7 +122,7 @@ public class ControladorEscenario6 : MonoBehaviour
         }
         else if (pasoActual > 0)
         {
-            targetDetectado = true; // Solo registramos que lo vio
+            targetDetectado = true;
         }
     }
 
@@ -119,7 +135,6 @@ public class ControladorEscenario6 : MonoBehaviour
 
     // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN (JUEGO) ---
 
-    // Acción Incorrecta
     public void BotonReenviar()
     {
         OcultarElementosInteraccion();
@@ -128,9 +143,11 @@ public class ControladorEscenario6 : MonoBehaviour
         tituloTarjetaError.text = "¡CUIDADO!";
         textoTarjetaError.text = "Al reenviarlo, ayudas a los estafadores a engañar a tus seres queridos y llenas sus correos de basura.";
         if (textoBotonError != null) textoBotonError.text = "INTENTAR DE NUEVO";
+
+        // NUEVO: Reproducimos el audio de error
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioError);
     }
 
-    // Acción Correcta
     public void BotonBorrar()
     {
         OcultarElementosInteraccion();
@@ -139,30 +156,38 @@ public class ControladorEscenario6 : MonoBehaviour
         tituloTarjetaCorrecto.text = "¡CADENA ROTA!";
         textoTarjetaCorrecto.text = "¡Muy bien! Al borrar el correo, detuviste las mentiras y protegiste a tus contactos. ¡Tu bandeja está limpia y segura!";
         if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
+
+        // NUEVO: Reproducimos el audio de acierto
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioCorrecto);
     }
 
     // --- EL GRAN FINAL ---
 
-    // Se ejecuta desde el ControladorMaestro (o desde tarjetaCorrecto) al finalizar todo
     public void MostrarFelicitacion()
     {
+        // NUEVO: Por si Botty seguía felicitando por el nivel, lo callamos antes del mensaje final
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         OcultarTodo();
         tarjetaFelicitacion.SetActive(true);
         tituloTarjetaFelicitacion.text = "¡FELICITACIONES!";
         textoTarjetaFelicitacion.text = "La tecnología no tiene por qué ser difícil. Tómate tu tiempo al leer, confía en tu instinto y ¡navega seguro!";
+
+        // NUEVO: Reproducimos el audio de felicitación final
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioFelicitacion);
     }
 
-    // ACTUALIZADO: Cierra oficialmente la experiencia de juego
     public void BotonFinalizarJuego()
     {
-        OcultarTodo();
-        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apagamos marcadores AR
+        // NUEVO: Callamos la voz al presionar Finalizar
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
 
-        // Guardamos explícitamente que ya se completaron todos los niveles (7)
+        OcultarTodo();
+        if (maestro != null) maestro.CambiarEscenarioActivo(0);
+
         PlayerPrefs.SetInt("NivelGuardado", 7);
         PlayerPrefs.Save();
 
-        // Volvemos al inicio para ver la tarjeta en estado "¡Misión Cumplida!"
         if (navegacion != null) navegacion.MostrarMenuPrincipal();
     }
 
@@ -175,10 +200,16 @@ public class ControladorEscenario6 : MonoBehaviour
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
         textoTarjetaAyuda.text = "Selecciona el botón con la acción que consideres correcta para evitar que la estafa siga circulando.";
+
+        // NUEVO: Reproducimos el audio de ayuda
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAyuda);
     }
 
     public void OcultarAyuda()
     {
+        // NUEVO: Detenemos el audio si la cierra rápido
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaAyuda.SetActive(false);
         if (targetDetectado)
         {
@@ -189,6 +220,9 @@ public class ControladorEscenario6 : MonoBehaviour
 
     public void RestaurarDespuesDeError()
     {
+        // NUEVO: Detenemos el audio de error
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaError.SetActive(false);
         grupoOpciones.SetActive(true);
 
@@ -199,9 +233,11 @@ public class ControladorEscenario6 : MonoBehaviour
         }
     }
 
-    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel
     public void RegresarAlMenuPrincipal()
     {
+        // NUEVO: Silenciamos todo al escapar del nivel
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         OcultarTodo();
         if (maestro != null) maestro.CambiarEscenarioActivo(0);
         if (navegacion != null) navegacion.MostrarMenuPrincipal();
