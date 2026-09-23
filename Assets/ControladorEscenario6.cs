@@ -199,7 +199,7 @@ public class ControladorEscenario6 : MonoBehaviour
 
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
-        textoTarjetaAyuda.text = "Selecciona el botón con la acción que consideres correcta para evitar que la estafa siga circulando.";
+        textoTarjetaAyuda.text = "Escanea la imagen y selecciona el botón con la acción que consideres que te salva de los estafadores.";
 
         // NUEVO: Reproducimos el audio de ayuda
         if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAyuda);

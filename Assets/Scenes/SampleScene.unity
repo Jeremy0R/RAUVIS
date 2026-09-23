@@ -3007,6 +3007,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorEscenario3
   navegacion: {fileID: 2687871}
   maestro: {fileID: 1249460589}
+  gestorAudio: {fileID: 1958804245}
+  audioBase: {fileID: 8300000, guid: 6f661dfda49dfc3469fe2a8042b15a62, type: 3}
+  audioExplicacion: {fileID: 8300000, guid: 8cacbcde04b3859479d53bbc49b7b0f9, type: 3}
+  audioError: {fileID: 8300000, guid: 36507b1d82b86984385312e79d0d312d, type: 3}
+  audioCorrecto: {fileID: 8300000, guid: 52a21359c0df9414da18db06cd21f00e, type: 3}
+  audioAyuda: {fileID: 8300000, guid: 16487cd346801b14e826595d2e31d665, type: 3}
   tarjetaBase: {fileID: 8127376405441875251}
   tituloTarjetaBase: {fileID: 474703522}
   textoTarjetaBase: {fileID: 8127376405441875250}
@@ -4839,6 +4845,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorEscenario1
   navegacion: {fileID: 2687871}
   maestro: {fileID: 1249460589}
+  gestorAudio: {fileID: 1958804245}
+  audioBase: {fileID: 8300000, guid: 76d383dd19af22f4385d074c538d5ddc, type: 3}
+  audioExplicacion: {fileID: 8300000, guid: 65204877aeaae2448b9740d76553424d, type: 3}
+  audioError: {fileID: 8300000, guid: 4c0585e4a8f7a5e4e8432eed29448359, type: 3}
+  audioCorrecto: {fileID: 8300000, guid: 6e00c121153a21743862de5a3874c232, type: 3}
+  audioAyuda: {fileID: 8300000, guid: e9d42512dbd2da64a8286ab6ba0d4cac, type: 3}
   tarjetaBase: {fileID: 8127376405441875251}
   tituloTarjetaBase: {fileID: 474703522}
   textoTarjetaBase: {fileID: 8127376405441875250}
@@ -9159,6 +9171,8 @@ MonoBehaviour:
   tituloCompletado: {fileID: 170824359}
   contenidoCompletado: {fileID: 170824358}
   textoBotonHecho: {fileID: 170824357}
+  gestorAudio: {fileID: 1958804245}
+  audioPruebaSonido: {fileID: 8300000, guid: 01860bb17f7fe274aaa546898a1c005b, type: 3}
 --- !u!4 &734707162
 Transform:
   m_ObjectHideFlags: 0
@@ -9937,6 +9951,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorEscenario5
   navegacion: {fileID: 2687871}
   maestro: {fileID: 1249460589}
+  gestorAudio: {fileID: 1958804245}
+  audioBase: {fileID: 8300000, guid: dc70c3e99d45c1c4ca916bab0d54a0e0, type: 3}
+  audioExplicacion: {fileID: 8300000, guid: 82b480f12e58b1d4bad8dd907c95853c, type: 3}
+  audioError: {fileID: 8300000, guid: eb878b2070770c240a3fd1cbad4438a9, type: 3}
+  audioCorrecto: {fileID: 8300000, guid: 2ff1b0c27e4d2fc4a80cbc7a04e55fa4, type: 3}
+  audioAyuda: {fileID: 8300000, guid: 388df839d60606047ab7a7662f7e744a, type: 3}
   tarjetaBase: {fileID: 8127376405441875251}
   tituloTarjetaBase: {fileID: 474703522}
   textoTarjetaBase: {fileID: 8127376405441875250}
@@ -15059,6 +15079,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorEscenario6
   navegacion: {fileID: 2687871}
   maestro: {fileID: 1249460589}
+  gestorAudio: {fileID: 1958804245}
+  audioBase: {fileID: 8300000, guid: cb4762dbbd1043242864b1629ce7a652, type: 3}
+  audioExplicacion: {fileID: 8300000, guid: 63dd6a7880696e145a09301cd1874b2c, type: 3}
+  audioError: {fileID: 8300000, guid: 23d36ce7df07b9543839fb75b356a4a1, type: 3}
+  audioCorrecto: {fileID: 8300000, guid: 9d8d8fa5208b1414ab9e13d68bcdbf5c, type: 3}
+  audioAyuda: {fileID: 8300000, guid: 5dbce8ce26b9cb746be1728eed9ed774, type: 3}
+  audioFelicitacion: {fileID: 8300000, guid: 1e5f7da5e7d69244f8773bada026cb1c, type: 3}
   tarjetaBase: {fileID: 8127376405441875251}
   tituloTarjetaBase: {fileID: 474703522}
   textoTarjetaBase: {fileID: 8127376405441875250}
@@ -15333,6 +15360,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorEscenario4
   navegacion: {fileID: 2687871}
   maestro: {fileID: 1249460589}
+  gestorAudio: {fileID: 1958804245}
+  audioBase: {fileID: 8300000, guid: fbe5e70de9eca0b47b381f345cc0705d, type: 3}
+  audioExplicacion: {fileID: 8300000, guid: 9f070de9f8641e74f9d7f35c72a507d6, type: 3}
+  audioError: {fileID: 8300000, guid: 7586327e313dafb47a8d9cb1c92f84a7, type: 3}
+  audioCorrecto: {fileID: 8300000, guid: 4137249e4122ab14e93ea9484da8e5e5, type: 3}
+  audioAyuda: {fileID: 8300000, guid: f9092454fe88df6449b830964920ff11, type: 3}
   tarjetaBase: {fileID: 8127376405441875251}
   tituloTarjetaBase: {fileID: 474703522}
   textoTarjetaBase: {fileID: 8127376405441875250}
@@ -19077,6 +19110,13 @@ MonoBehaviour:
   iconoAyuda: {fileID: 665888349}
   maestro: {fileID: 1249460589}
   navegacion: {fileID: 2687871}
+  gestorAudio: {fileID: 1958804245}
+  audioPaso1: {fileID: 8300000, guid: aa965223e173562478425c741f1c54f0, type: 3}
+  audioPaso2: {fileID: 8300000, guid: a342ef36741687846ba120c38785fcf8, type: 3}
+  audioPaso3: {fileID: 8300000, guid: b131dc42fc594df42b5f1ba4cbf36071, type: 3}
+  audioPaso4: {fileID: 8300000, guid: 95a73c536c8650640b3d600e578ca802, type: 3}
+  audioPaso5: {fileID: 8300000, guid: 0b3d26767840939448e4233532776222, type: 3}
+  audioPaso6: {fileID: 8300000, guid: 7119391907546a14bb81b7bcdeb2c637, type: 3}
 --- !u!4 &1767016796
 Transform:
   m_ObjectHideFlags: 0
@@ -20095,6 +20135,9 @@ MonoBehaviour:
   tarjetaAviso: {fileID: 565157641}
   tituloAviso: {fileID: 456627080}
   textoAviso: {fileID: 549814777}
+  gestorAudio: {fileID: 1958804245}
+  audioInstrucciones: {fileID: 8300000, guid: 4d68642bc28d25e4697632e094ae6cd6, type: 3}
+  audioAdvertencia: {fileID: 8300000, guid: 56b14f5c2c20fa4458eaa435aaab0b4f, type: 3}
 --- !u!4 &1871472369
 Transform:
   m_ObjectHideFlags: 0
@@ -20925,6 +20968,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1958804246}
   - component: {fileID: 1958804245}
+  - component: {fileID: 1958804247}
   m_Layer: 0
   m_Name: Manager_Audio
   m_TagString: Untagged
@@ -20944,7 +20988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 748fab931a849ba43b1bb3e705a1ad17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControladorAudio
-  bocina: {fileID: 0}
+  bocina: {fileID: 1958804247}
 --- !u!4 &1958804246
 Transform:
   m_ObjectHideFlags: 0
@@ -20960,6 +21004,103 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1958804247
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958804244}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1962808043
 GameObject:
   m_ObjectHideFlags: 0
@@ -21831,6 +21972,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControladorEscenario2
   navegacion: {fileID: 2687871}
   maestro: {fileID: 1249460589}
+  gestorAudio: {fileID: 1958804245}
+  audioBase: {fileID: 8300000, guid: 56341942f8f1a0b4c803ef3c5ce91e83, type: 3}
+  audioExplicacion: {fileID: 8300000, guid: 1d7dd9df82549404dba17e2bbf318c4e, type: 3}
+  audioError: {fileID: 8300000, guid: 4749fdb736cd19d4589ba67f75b26661, type: 3}
+  audioCorrecto: {fileID: 8300000, guid: edecd875925ce0f48a84ce59e2cc5487, type: 3}
+  audioAyuda: {fileID: 8300000, guid: 53dfaadbc7fc6614bb607031b5c48018, type: 3}
   tarjetaBase: {fileID: 8127376405441875251}
   tituloTarjetaBase: {fileID: 474703522}
   textoTarjetaBase: {fileID: 8127376405441875250}

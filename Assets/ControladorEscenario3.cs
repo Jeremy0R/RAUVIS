@@ -77,7 +77,7 @@ public class ControladorEscenario3 : MonoBehaviour
         tarjetaBase.SetActive(true);
 
         tituloTarjetaBase.text = "EL PAQUETE SORPRESA";
-        textoTarjetaBase.text = "Este correo contiene un archivo adjunto. Antes de abrir archivos en internet, siempre debemos revisarlo.";
+        textoTarjetaBase.text = "Este correo contiene un archivo adjunto. Antes de abrir archivos en internet, siempre debemos analizarlos.";
 
         // NUEVO: Reproducimos el audio base
         if (gestorAudio != null) gestorAudio.ReproducirVoz(audioBase);

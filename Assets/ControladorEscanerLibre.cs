@@ -43,7 +43,7 @@ public class ControladorEscanerLibre : MonoBehaviour
     public void ReiniciarEscaner()
     {
         if (tituloInstrucciones != null) tituloInstrucciones.text = "ESTE ES EL ESCÁNER";
-        if (textoInstrucciones != null) textoInstrucciones.text = "Asegúrate de tener buena luz. Apunta la cámara al código QR y toca CONTINUAR cuando estés listo.";
+        if (textoInstrucciones != null) textoInstrucciones.text = "Asegúrate de tener buena luz. Apunta la cámara a una imagen y toca CONTINUAR cuando estés listo.";
         if (textoBotonInstrucciones != null) textoBotonInstrucciones.text = "CONTINUAR";
 
         tarjetaInstrucciones.SetActive(true);
