@@ -27,8 +27,13 @@ public class ControladorEscanerLibre : MonoBehaviour
 
     [Header("Retroalimentación (Botón Rojo)")]
     public GameObject tarjetaAviso;
-    public TextMeshProUGUI tituloAviso;     // NUEVO: Para el título
-    public TextMeshProUGUI textoAviso;      // Para el contenido
+    public TextMeshProUGUI tituloAviso;
+    public TextMeshProUGUI textoAviso;
+
+    [Header("Conexión de Audio")]
+    public ControladorAudio gestorAudio; // NUEVO
+    public AudioClip audioInstrucciones; // Audio: "Este es el escáner..."
+    public AudioClip audioAdvertencia;   // Audio: "¡Estás en modo práctica!..."
 
     void OnEnable()
     {
@@ -45,10 +50,16 @@ public class ControladorEscanerLibre : MonoBehaviour
         escanerAnimado.SetActive(false);
         botonCamara.SetActive(false);
         if (tarjetaAviso != null) tarjetaAviso.SetActive(false);
+
+        // NUEVO: Reproducimos el audio al abrir la pestaña del Escáner
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioInstrucciones);
     }
 
     public void ActivarModoEscaneo()
     {
+        // NUEVO: Silenciamos por si Botty seguía hablando
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaInstrucciones.SetActive(false);
         escanerAnimado.SetActive(true);
         botonCamara.SetActive(true);
@@ -63,9 +74,11 @@ public class ControladorEscanerLibre : MonoBehaviour
 
             tarjetaAviso.SetActive(true);
 
-            // Inyectamos título y contenido por separado
             if (tituloAviso != null) tituloAviso.text = "¡MODO PRÁCTICA!";
             if (textoAviso != null) textoAviso.text = "Ve a la pestaña LECCIONES para iniciar un escenario oficial.";
+
+            // NUEVO: Reproducimos el audio de advertencia
+            if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAdvertencia);
 
             CancelInvoke("OcultarAviso");
             Invoke("OcultarAviso", 5.5f);

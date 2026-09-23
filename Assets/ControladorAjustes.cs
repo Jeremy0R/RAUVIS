@@ -2,7 +2,8 @@
  * PROYECTO: RAUVIS 
  * SCRIPT: ControladorAjustes.cs
  * DESCRIPCIÓN: Gestiona la vista de Ajustes. Controla la navegación interna, 
- *              la inyección de textos y el reseteo seguro de la memoria.
+ *              la inyección de textos, el reseteo seguro de la memoria y la 
+ *              configuración global de AUDIO.
  * ============================================================================== */
 
 using UnityEngine;
@@ -35,6 +36,11 @@ public class ControladorAjustes : MonoBehaviour
     public TextMeshProUGUI tituloCompletado;
     public TextMeshProUGUI contenidoCompletado;
     public TextMeshProUGUI textoBotonHecho;
+
+    // --- NUEVAS VARIABLES DE AUDIO ---
+    [Header("Conexión de Audio")]
+    public ControladorAudio gestorAudio;
+    public AudioClip audioPruebaSonido;  // Audio: "Hola, la narración está activada."
 
     void OnEnable()
     {
@@ -106,11 +112,25 @@ public class ControladorAjustes : MonoBehaviour
         bool activado = PlayerPrefs.GetInt("NarracionActivada", 1) == 1;
 
         // Lo invertimos (Si era 1 lo pasamos a 0, y viceversa)
-        PlayerPrefs.SetInt("NarracionActivada", activado ? 0 : 1);
+        bool nuevoEstado = !activado;
+        PlayerPrefs.SetInt("NarracionActivada", nuevoEstado ? 1 : 0);
         PlayerPrefs.Save();
 
         // Actualizamos el botón visualmente
-        if (textoBotonSonido != null) textoBotonSonido.text = !activado ? "DESACTIVAR" : "ACTIVAR";
+        if (textoBotonSonido != null) textoBotonSonido.text = nuevoEstado ? "DESACTIVAR" : "ACTIVAR";
+
+        // --- NUEVA LÓGICA DE AUDIO: Reproducimos o silenciamos la voz de prueba ---
+        if (gestorAudio != null)
+        {
+            if (nuevoEstado)
+            {
+                gestorAudio.ReproducirVoz(audioPruebaSonido);
+            }
+            else
+            {
+                gestorAudio.DetenerVoz();
+            }
+        }
     }
 
     // Reinicia el juego y muestra la tarjeta final
