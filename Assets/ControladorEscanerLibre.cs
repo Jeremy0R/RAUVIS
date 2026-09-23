@@ -11,6 +11,7 @@
 * al presionar el botón de captura simulado.
 
 * ============================================================================== */
+
 using UnityEngine;
 using TMPro;
 
@@ -31,19 +32,21 @@ public class ControladorEscanerLibre : MonoBehaviour
     public TextMeshProUGUI textoAviso;
 
     [Header("Conexión de Audio")]
-    public ControladorAudio gestorAudio; // NUEVO
-    public AudioClip audioInstrucciones; // Audio: "Este es el escáner..."
-    public AudioClip audioAdvertencia;   // Audio: "¡Estás en modo práctica!..."
+    public ControladorAudio gestorAudio;
+    public AudioClip audioInstrucciones;
+    public AudioClip audioAdvertencia;
 
     void OnEnable()
     {
-        ReiniciarEscaner();
+        // Bloquea el audio si la app acaba de abrirse (los primeros 2 segundos)
+        bool permitirAudio = Time.timeSinceLevelLoad > 2f;
+        ReiniciarEscaner(permitirAudio);
     }
 
-    public void ReiniciarEscaner()
+    public void ReiniciarEscaner(bool reproducirAudio = true)
     {
         if (tituloInstrucciones != null) tituloInstrucciones.text = "ESTE ES EL ESCÁNER";
-        if (textoInstrucciones != null) textoInstrucciones.text = "Asegúrate de tener buena luz. Apunta la cámara a una imagen y toca CONTINUAR cuando estés listo.";
+        if (textoInstrucciones != null) textoInstrucciones.text = "Asegúrate de tener buena luz. Apunta la cámara al código QR y toca CONTINUAR cuando estés listo.";
         if (textoBotonInstrucciones != null) textoBotonInstrucciones.text = "CONTINUAR";
 
         tarjetaInstrucciones.SetActive(true);
@@ -51,13 +54,14 @@ public class ControladorEscanerLibre : MonoBehaviour
         botonCamara.SetActive(false);
         if (tarjetaAviso != null) tarjetaAviso.SetActive(false);
 
-        // NUEVO: Reproducimos el audio al abrir la pestaña del Escáner
-        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioInstrucciones);
+        if (reproducirAudio && gestorAudio != null)
+        {
+            gestorAudio.ReproducirVoz(audioInstrucciones);
+        }
     }
 
     public void ActivarModoEscaneo()
     {
-        // NUEVO: Silenciamos por si Botty seguía hablando
         if (gestorAudio != null) gestorAudio.DetenerVoz();
 
         tarjetaInstrucciones.SetActive(false);
@@ -77,7 +81,6 @@ public class ControladorEscanerLibre : MonoBehaviour
             if (tituloAviso != null) tituloAviso.text = "¡MODO PRÁCTICA!";
             if (textoAviso != null) textoAviso.text = "Ve a la pestaña LECCIONES para iniciar un escenario oficial.";
 
-            // NUEVO: Reproducimos el audio de advertencia
             if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAdvertencia);
 
             CancelInvoke("OcultarAviso");

@@ -7768,18 +7768,18 @@ PrefabInstance:
     - target: {fileID: 4833382858990856905, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 734707161}
     - target: {fileID: 4833382858990856905, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4833382858990856905, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: BotonActivarDesactivarSonido
       objectReference: {fileID: 0}
     - target: {fileID: 4833382858990856905, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ControladorMaestro, Assembly-CSharp
+      value: ControladorAjustes, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 4833382858990856905, guid: bee04c4d5e789d84daafb62d098fe209, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -11063,7 +11063,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &976810349
 RectTransform:
   m_ObjectHideFlags: 0
