@@ -27,15 +27,22 @@ public class ControladorEscanerLibre : MonoBehaviour
 
     [Header("Retroalimentación (Botón Rojo)")]
     public GameObject tarjetaAviso;
-    public TextMeshProUGUI tituloAviso;     // NUEVO: Para el título
-    public TextMeshProUGUI textoAviso;      // Para el contenido
+    public TextMeshProUGUI tituloAviso;
+    public TextMeshProUGUI textoAviso;
+
+    [Header("Conexión de Audio")]
+    public ControladorAudio gestorAudio;
+    public AudioClip audioInstrucciones;
+    public AudioClip audioAdvertencia;
 
     void OnEnable()
     {
-        ReiniciarEscaner();
+        // Bloquea el audio si la app acaba de abrirse (los primeros 2 segundos)
+        bool permitirAudio = Time.timeSinceLevelLoad > 2f;
+        ReiniciarEscaner(permitirAudio);
     }
 
-    public void ReiniciarEscaner()
+    public void ReiniciarEscaner(bool reproducirAudio = true)
     {
         if (tituloInstrucciones != null) tituloInstrucciones.text = "ESTE ES EL ESCÁNER";
         if (textoInstrucciones != null) textoInstrucciones.text = "Asegúrate de tener buena luz. Apunta la cámara al código QR y toca CONTINUAR cuando estés listo.";
@@ -45,10 +52,17 @@ public class ControladorEscanerLibre : MonoBehaviour
         escanerAnimado.SetActive(false);
         botonCamara.SetActive(false);
         if (tarjetaAviso != null) tarjetaAviso.SetActive(false);
+
+        if (reproducirAudio && gestorAudio != null)
+        {
+            gestorAudio.ReproducirVoz(audioInstrucciones);
+        }
     }
 
     public void ActivarModoEscaneo()
     {
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaInstrucciones.SetActive(false);
         escanerAnimado.SetActive(true);
         botonCamara.SetActive(true);
@@ -63,9 +77,10 @@ public class ControladorEscanerLibre : MonoBehaviour
 
             tarjetaAviso.SetActive(true);
 
-            // Inyectamos título y contenido por separado
             if (tituloAviso != null) tituloAviso.text = "¡MODO PRÁCTICA!";
             if (textoAviso != null) textoAviso.text = "Ve a la pestaña LECCIONES para iniciar un escenario oficial.";
+
+            if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAdvertencia);
 
             CancelInvoke("OcultarAviso");
             Invoke("OcultarAviso", 5.5f);

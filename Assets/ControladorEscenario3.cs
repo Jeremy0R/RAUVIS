@@ -2,8 +2,8 @@
  * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
  * SCRIPT: ControladorEscenario3.cs
  * DESCRIPCIÓN: Gestiona el Escenario 3 (Archivos Adjuntos Peligrosos). 
- *              Implementa la lógica para escanear un objetivo con Vuforia, 
- *              mostrar una animación de análisis de virus y dar retroalimentación.
+ * Implementa la lógica para escanear un objetivo, mostrar la  
+ * animación de análisis, dar retroalimentación y reproducir AUDIOS.
  * ============================================================================== */
 
 using UnityEngine;
@@ -14,8 +14,16 @@ public class ControladorEscenario3 : MonoBehaviour
 {
     // --- CONEXIONES GLOBALES ---
     [Header("Conexiones del Sistema")]
-    public ControladorNavegacion navegacion; // NUEVO: Permite regresar al Hub principal
-    public ControladorMaestro maestro;       // NUEVO: Controla el estado general y el AR
+    public ControladorNavegacion navegacion; // Permite regresar al Hub principal
+    public ControladorMaestro maestro;       // Controla el estado general y el AR
+
+    [Header("Conexión de Audio")]
+    public ControladorAudio gestorAudio;     // NUEVO: Cerebro de audios
+    public AudioClip audioBase;
+    public AudioClip audioExplicacion;
+    public AudioClip audioError;
+    public AudioClip audioCorrecto;
+    public AudioClip audioAyuda;
 
     // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
@@ -69,7 +77,10 @@ public class ControladorEscenario3 : MonoBehaviour
         tarjetaBase.SetActive(true);
 
         tituloTarjetaBase.text = "EL PAQUETE SORPRESA";
-        textoTarjetaBase.text = "Este correo contiene un archivo adjunto. Antes de abrir archivos en internet, siempre debemos revisarlo.";
+        textoTarjetaBase.text = "Este correo contiene un archivo adjunto. Antes de abrir archivos en internet, siempre debemos analizarlos.";
+
+        // NUEVO: Reproducimos el audio base
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioBase);
     }
 
     // Controla la navegación de las tarjetas de diálogo
@@ -84,10 +95,16 @@ public class ControladorEscenario3 : MonoBehaviour
             tituloTarjetaExplicacion.text = "ANALIZA EL DOCUMENTO";
             textoTarjetaExplicacion.text = "Escanea la imagen y toca el botón flotante de 'Analizar' que aparece sobre el documento para comprobar si es seguro.";
 
+            // NUEVO: Reproducimos la instrucción
+            if (gestorAudio != null) gestorAudio.ReproducirVoz(audioExplicacion);
+
             pasoActual++;
         }
         else
         {
+            // NUEVO: Detenemos a Botty si sigue hablando antes de pasar al modo AR
+            if (gestorAudio != null) gestorAudio.DetenerVoz();
+
             // Apagamos la explicación y pasamos a la fase de escáner (Vuforia)
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
@@ -116,6 +133,9 @@ public class ControladorEscenario3 : MonoBehaviour
     // Se ejecuta al tocar el botón flotante "Analizar" en el mundo AR
     public void IniciarAnalisis()
     {
+        // NUEVO: Silenciamos por si quedó algún audio rezagado, para darle suspenso a la animación
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         botonAnalizar.SetActive(false);
         grupoOpciones.SetActive(false); // Ocultamos menús para limpiar la vista
         animacionScanner.SetActive(true); // Iniciamos el GIF/Animación
@@ -141,6 +161,9 @@ public class ControladorEscenario3 : MonoBehaviour
         textoTarjetaError.text = "El scanner detectó un virus. Está diseñado para robar tu información.";
 
         if (textoBotonError != null) textoBotonError.text = "BORRAR";
+
+        // NUEVO: Reproducimos el audio de alerta/error
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioError);
     }
 
     // Se ejecuta al decidir "Borrar" el virus
@@ -154,6 +177,9 @@ public class ControladorEscenario3 : MonoBehaviour
         textoTarjetaCorrecto.text = "Eliminaste la amenaza. Recuerda: Nunca descargues archivos de personas que no conoces. ¡Excelente trabajo!";
 
         if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
+
+        // NUEVO: Reproducimos el audio de éxito
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioCorrecto);
     }
 
     // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
@@ -164,17 +190,25 @@ public class ControladorEscenario3 : MonoBehaviour
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
         textoTarjetaAyuda.text = "Busca la imagen con la cámara para analizar el documento que te llegó.";
+
+        // NUEVO: Reproducimos el audio de ayuda
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAyuda);
     }
 
     public void OcultarAyuda()
     {
+        // NUEVO: Callamos a Botty si cerramos la ayuda antes de que termine
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaAyuda.SetActive(false);
         grupoOpciones.SetActive(true);
     }
 
-    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel
     public void RegresarAlMenuPrincipal()
     {
+        // NUEVO: Detenemos a Botty inmediatamente al salir del nivel
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         OcultarTodo();
         if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apaga AR
         if (navegacion != null) navegacion.MostrarMenuPrincipal(); // Vuelve a Inicio

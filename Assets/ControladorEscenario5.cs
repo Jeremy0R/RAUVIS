@@ -2,8 +2,8 @@
  * PROYECTO: RAUVIS (Realidad Aumentada para la detección de Phishing y Estafas)
  * SCRIPT: ControladorEscenario5.cs
  * DESCRIPCIÓN: Gestiona el Escenario 5 (Links Falsos). Controla la interacción 
- *              donde el usuario usa una "lupa" para revelar un enlace oculto y 
- *              debe decidir si visitar o bloquear el sitio web sospechoso.
+ *              donde el usuario usa una "lupa" para revelar un enlace oculto,
+ *              decide qué hacer, y controla la inyección de AUDIOS de Botty.
  * ============================================================================== */
 
 using UnityEngine;
@@ -13,8 +13,16 @@ public class ControladorEscenario5 : MonoBehaviour
 {
     // --- CONEXIONES GLOBALES ---
     [Header("Conexiones del Sistema")]
-    public ControladorNavegacion navegacion; // Para regresar al menú Inicio
-    public ControladorMaestro maestro;       // Para apagar la AR al salir
+    public ControladorNavegacion navegacion;
+    public ControladorMaestro maestro;
+
+    [Header("Conexión de Audio")]
+    public ControladorAudio gestorAudio; // NUEVO: Cerebro de audios
+    public AudioClip audioBase;
+    public AudioClip audioExplicacion;
+    public AudioClip audioError;
+    public AudioClip audioCorrecto;
+    public AudioClip audioAyuda;
 
     // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
@@ -27,10 +35,10 @@ public class ControladorEscenario5 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaExplicacion;
 
     [Header("Interfaz de Interacción")]
-    public GameObject grupoOpciones; // Botones Atrás (<) y Ayuda (?)
-    public GameObject pantallaLupa; // Marco visual de la lupa
-    public GameObject cardLinkSospechoso; // Tarjeta que revela el link real
-    public GameObject grupoBotonesAccion; // Botones AR: "Visitar Sitio" y "Bloquear"
+    public GameObject grupoOpciones;
+    public GameObject pantallaLupa;
+    public GameObject cardLinkSospechoso;
+    public GameObject grupoBotonesAccion;
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -49,7 +57,7 @@ public class ControladorEscenario5 : MonoBehaviour
 
     // Sensores de estado
     private int pasoActual = 0;
-    private bool targetDetectado = false; // Rastrea si la imagen AR está enfocada
+    private bool targetDetectado = false;
 
     void Start()
     {
@@ -58,7 +66,6 @@ public class ControladorEscenario5 : MonoBehaviour
 
     // --- FUNCIONES DE FLUJO (INTRODUCCIÓN) ---
 
-    // Inicializa el nivel y la primera instrucción
     public void IniciarEscenario()
     {
         pasoActual = 0;
@@ -68,9 +75,11 @@ public class ControladorEscenario5 : MonoBehaviour
         tarjetaBase.SetActive(true);
         tituloTarjetaBase.text = "EL PUENTE ENGAÑOSO";
         textoTarjetaBase.text = "A veces, un correo te promete un premio, pero te lleva a una página falsa y peligrosa.";
+
+        // NUEVO: Reproducimos el audio base
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioBase);
     }
 
-    // Navegación por las tarjetas de introducción
     public void BotonContinuarBase()
     {
         if (pasoActual == 0)
@@ -81,11 +90,16 @@ public class ControladorEscenario5 : MonoBehaviour
             tituloTarjetaExplicacion.text = "EL PUENTE ENGAÑOSO";
             textoTarjetaExplicacion.text = "Arrastra la lupa mágica sobre la tarjeta para ver a dónde te lleva realmente.";
 
+            // NUEVO: Reproducimos la instrucción
+            if (gestorAudio != null) gestorAudio.ReproducirVoz(audioExplicacion);
+
             pasoActual++;
         }
         else
         {
-            // Apagamos explicación y encendemos la interfaz de la lupa esperando el target
+            // NUEVO: Callamos a Botty al entrar a la lupa
+            if (gestorAudio != null) gestorAudio.DetenerVoz();
+
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
             if (pantallaLupa != null) pantallaLupa.SetActive(true);
@@ -95,10 +109,8 @@ public class ControladorEscenario5 : MonoBehaviour
 
     // --- FUNCIONES DE ESCANEO (VUFORIA) ---
 
-    // Se invoca cuando Vuforia detecta la imagen (Target_E5)
     public void ActivarLinkYBotones()
     {
-        // Candado: Evita que los botones AR aparezcan si el usuario está leyendo una tarjeta
         if (pasoActual > 0 && !tarjetaAyuda.activeSelf && !tarjetaError.activeSelf && !tarjetaCorrecto.activeSelf)
         {
             targetDetectado = true;
@@ -106,22 +118,20 @@ public class ControladorEscenario5 : MonoBehaviour
             grupoBotonesAccion.SetActive(true);
             grupoOpciones.SetActive(true);
 
-            if (pantallaLupa != null) pantallaLupa.SetActive(false); // Oculta el marco de la lupa
+            if (pantallaLupa != null) pantallaLupa.SetActive(false);
         }
         else if (pasoActual > 0)
         {
-            targetDetectado = true; // Solo registramos que lo vio de fondo
+            targetDetectado = true;
         }
     }
 
-    // Se invoca cuando Vuforia pierde la imagen
     public void DesactivarLinkYBotones()
     {
         targetDetectado = false;
         cardLinkSospechoso.SetActive(false);
         grupoBotonesAccion.SetActive(false);
 
-        // Volvemos a encender el marco de la lupa si no hay retroalimentación activa
         if (pasoActual > 0 && pantallaLupa != null && !tarjetaCorrecto.activeSelf && !tarjetaError.activeSelf)
         {
             pantallaLupa.SetActive(true);
@@ -130,7 +140,6 @@ public class ControladorEscenario5 : MonoBehaviour
 
     // --- INTERACCIÓN DE LOS BOTONES DE ACCIÓN (JUEGO) ---
 
-    // Acción Incorrecta: Entró al sitio falso
     public void BotonVisitarSitio()
     {
         OcultarElementosInteraccion();
@@ -139,9 +148,11 @@ public class ControladorEscenario5 : MonoBehaviour
         tituloTarjetaError.text = "¡CUIDADO!";
         textoTarjetaError.text = "Si visitas un sitio web inseguro, los hackers pueden robar información personal de tu dispositivo.";
         if (textoBotonError != null) textoBotonError.text = "INTENTAR DE NUEVO";
+
+        // NUEVO: Reproducimos el audio de error
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioError);
     }
 
-    // Acción Correcta: Bloqueó la URL sospechosa
     public void BotonBloquearSitio()
     {
         OcultarElementosInteraccion();
@@ -150,11 +161,13 @@ public class ControladorEscenario5 : MonoBehaviour
         tituloTarjetaCorrecto.text = "¡TRAMPA EVITADA!";
         textoTarjetaCorrecto.text = "Esa dirección es extraña y no es oficial. Si no la conoces mejor no entrar. ¡El correo ha sido bloqueado por tu seguridad!";
         if (textoBotonCorrecto != null) textoBotonCorrecto.text = "CONTINUAR";
+
+        // NUEVO: Reproducimos el audio de acierto
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioCorrecto);
     }
 
     // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
 
-    // Muestra la pista y esconde la AR temporalmente
     public void MostrarAyuda()
     {
         if (cardLinkSospechoso != null) cardLinkSospechoso.SetActive(false);
@@ -164,11 +177,16 @@ public class ControladorEscenario5 : MonoBehaviour
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "¡NO TE PREOCUPES!";
         textoTarjetaAyuda.text = "Escanea la imagen y selecciona el botón con la acción que consideres correcta para este caso.";
+
+        // NUEVO: Reproducimos el audio de ayuda
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAyuda);
     }
 
-    // Restaura la interfaz de AR si el objetivo sigue visible
     public void OcultarAyuda()
     {
+        // NUEVO: Callamos la ayuda si el usuario vuelve a jugar rápido
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaAyuda.SetActive(false);
         if (targetDetectado)
         {
@@ -183,6 +201,9 @@ public class ControladorEscenario5 : MonoBehaviour
 
     public void RestaurarDespuesDeError()
     {
+        // NUEVO: Callamos la explicación del error
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaError.SetActive(false);
         grupoOpciones.SetActive(true);
 
@@ -193,15 +214,16 @@ public class ControladorEscenario5 : MonoBehaviour
         }
     }
 
-    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel
     public void RegresarAlMenuPrincipal()
     {
+        // NUEVO: Callamos cualquier voz si el usuario abandona el nivel
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         OcultarTodo();
-        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apaga AR
-        if (navegacion != null) navegacion.MostrarMenuPrincipal(); // Vuelve al Inicio
+        if (maestro != null) maestro.CambiarEscenarioActivo(0);
+        if (navegacion != null) navegacion.MostrarMenuPrincipal();
     }
 
-    // Oculta los elementos AR para limpiar la pantalla
     private void OcultarElementosInteraccion()
     {
         cardLinkSospechoso.SetActive(false);
@@ -209,7 +231,6 @@ public class ControladorEscenario5 : MonoBehaviour
         grupoOpciones.SetActive(false);
     }
 
-    // Apaga todo
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);

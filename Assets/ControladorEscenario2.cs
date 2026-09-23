@@ -3,7 +3,7 @@
  * SCRIPT: ControladorEscenario2.cs
  * DESCRIPCIÓN: Gestiona la lógica del Escenario 2 (El Cartero Falso). 
  *              Controla la transición entre la introducción, el uso de la lupa 
- *              (escáner) y la retroalimentación al identificar correos falsos.
+ *              (escáner), la retroalimentación y los AUDIOS de Botty.
  * ============================================================================== */
 
 using UnityEngine;
@@ -13,8 +13,16 @@ public class ControladorEscenario2 : MonoBehaviour
 {
     // --- CONEXIONES GLOBALES ---
     [Header("Conexiones del Sistema")]
-    public ControladorNavegacion navegacion; // Para regresar a Inicio
-    public ControladorMaestro maestro;       // Para apagar la cámara al salir
+    public ControladorNavegacion navegacion;
+    public ControladorMaestro maestro;
+
+    [Header("Conexión de Audio")]
+    public ControladorAudio gestorAudio; // NUEVO: Cerebro de audios
+    public AudioClip audioBase;
+    public AudioClip audioExplicacion;
+    public AudioClip audioError;
+    public AudioClip audioCorrecto;
+    public AudioClip audioAyuda;
 
     // --- VARIABLES DE INTERFAZ (TARJETAS) ---
     [Header("Tarjetas Principales")]
@@ -27,7 +35,7 @@ public class ControladorEscenario2 : MonoBehaviour
     public TextMeshProUGUI textoTarjetaExplicacion;
 
     [Header("Opciones del Escenario")]
-    public GameObject grupoOpciones; // Contiene los botones de Ayuda (?) y Regresar (<)
+    public GameObject grupoOpciones;
 
     [Header("Tarjetas de Retroalimentación")]
     public GameObject tarjetaError;
@@ -47,32 +55,30 @@ public class ControladorEscenario2 : MonoBehaviour
     public GameObject mailCardMalo;
     public GameObject mailCardBueno;
 
-    // Controla el avance del diálogo inicial
     private int pasoActual = 0;
 
     void Start()
     {
-        // Limpieza inicial para que no se superpongan cosas al abrir la app
         OcultarTodo();
     }
 
     // --- FUNCIONES DE FLUJO ---
 
-    // Configura el nivel desde cero cuando se activa
     public void IniciarEscenario()
     {
         pasoActual = 0;
         OcultarTodo();
 
-        // Encendemos la tarjeta base y apagamos botones secundarios para enfocar la lectura
         tarjetaBase.SetActive(true);
         grupoOpciones.SetActive(false);
 
         tituloTarjetaBase.text = "EL CARTERO FALSO";
         textoTarjetaBase.text = "Alguien envió un correo del banco, pero los ladrones a veces se disfrazan.";
+
+        // NUEVO: Reproducimos el audio base
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioBase);
     }
 
-    // Controla los clics en el botón "Continuar" de las tarjetas de diálogo
     public void BotonContinuarBase()
     {
         if (pasoActual == 0)
@@ -83,11 +89,16 @@ public class ControladorEscenario2 : MonoBehaviour
             tituloTarjetaExplicacion.text = "EL CARTERO FALSO";
             textoTarjetaExplicacion.text = "Usa la lupa para buscar los correos. Cuando los veas, toca el que creas que es falso.";
 
+            // NUEVO: Reproducimos la instrucción de la lupa
+            if (gestorAudio != null) gestorAudio.ReproducirVoz(audioExplicacion);
+
             pasoActual++;
         }
         else
         {
-            // Fin del diálogo: Pasamos a la pantalla de la lupa y mostramos las opciones globales
+            // NUEVO: Detenemos a Botty si seguía hablando al entrar al escáner
+            if (gestorAudio != null) gestorAudio.DetenerVoz();
+
             tarjetaBase.SetActive(false);
             tarjetaExplicacion.SetActive(false);
             grupoOpciones.SetActive(true);
@@ -97,18 +108,19 @@ public class ControladorEscenario2 : MonoBehaviour
 
     // --- FUNCIONES DE DECISIÓN (JUEGO) ---
 
-    // El usuario se equivocó y seleccionó el correo real
     public void SeleccionarCorreoBueno()
     {
         OcultarTodo();
         tarjetaError.SetActive(true);
-        grupoOpciones.SetActive(true); // Dejamos las opciones encendidas por si quiere ayuda
+        grupoOpciones.SetActive(true);
 
         tituloTarjetaError.text = "¡¡Revisa los detalles!!";
         textoTarjetaError.text = "Ese es un correo oficial. Revisa el otro. Fíjate que usa '@gmail' y trata de asustarte con 'urgencias'.";
+
+        // NUEVO: Reproducimos el audio de error
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioError);
     }
 
-    // El usuario acertó y seleccionó el correo estafa
     public void SeleccionarCorreoMalo()
     {
         OcultarTodo();
@@ -117,37 +129,45 @@ public class ControladorEscenario2 : MonoBehaviour
 
         tituloTarjetaCorrecto.text = "¡CORRECTO!";
         textoTarjetaCorrecto.text = "Los bancos reales nunca usan '@gmail' ni te envían amenazas urgentes. ¡Esquivaste una trampa!";
+
+        // NUEVO: Reproducimos el audio de acierto
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioCorrecto);
     }
 
-    // Cierra la tarjeta de error para seguir jugando
     public void BotonIntentarDeNuevo()
     {
+        // NUEVO: Detenemos a Botty para que haya silencio mientras vuelve a buscar
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         tarjetaError.SetActive(false);
         tarjetaAyuda.SetActive(false);
         grupoOpciones.SetActive(true);
-        pantallaLupa.SetActive(true); // Regresamos a la lupa
+        pantallaLupa.SetActive(true);
     }
 
     // --- FUNCIONES AUXILIARES DE NAVEGACIÓN ---
 
-    // Muestra la tarjeta de pistas
     public void MostrarAyuda()
     {
         OcultarTodo();
         tarjetaAyuda.SetActive(true);
         tituloTarjetaAyuda.text = "NO TE PREOCUPES";
         textoTarjetaAyuda.text = "Uno de los correos quiere robar tus datos, analiza la dirección del usuario de cada uno.";
+
+        // NUEVO: Reproducimos el audio de ayuda
+        if (gestorAudio != null) gestorAudio.ReproducirVoz(audioAyuda);
     }
 
-    // NUEVO: Se ejecuta al tocar el botón Atrás (<) para salir del nivel y volver al Home
     public void RegresarAlMenuPrincipal()
     {
+        // NUEVO: Callamos a Botty inmediatamente al salir
+        if (gestorAudio != null) gestorAudio.DetenerVoz();
+
         OcultarTodo();
-        if (maestro != null) maestro.CambiarEscenarioActivo(0); // Apaga la experiencia AR
-        if (navegacion != null) navegacion.MostrarMenuPrincipal(); // Muestra la interfaz de Inicio
+        if (maestro != null) maestro.CambiarEscenarioActivo(0);
+        if (navegacion != null) navegacion.MostrarMenuPrincipal();
     }
 
-    // Apaga todas las tarjetas y paneles visuales para limpiar la pantalla
     private void OcultarTodo()
     {
         tarjetaBase.SetActive(false);
