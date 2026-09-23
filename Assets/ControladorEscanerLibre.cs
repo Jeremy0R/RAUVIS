@@ -11,7 +11,6 @@
 * al presionar el botón de captura simulado.
 
 * ============================================================================== */
-
 using UnityEngine;
 using TMPro;
 
